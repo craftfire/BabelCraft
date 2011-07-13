@@ -1,0 +1,16 @@
+name: BabelCraft
+main: com.craftfire.babelcraft.BabelCraft
+version: dev-SNAPSHOT
+website: http://www.craftfire.com
+description: Automatic chat translation plugin and API for CraftBukkit.
+authors:
+  - CraftFire
+  - Contex
+  - Wulfspider
+commands:
+  lang:
+    description: Set your language by name or code or display a list.
+    usage: /<command> <language> or <languagecode> or <pagenumber>
+  lang search:
+    description: Search for a language name or code.
+    usage: /<command> search <string>
