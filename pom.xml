@@ -115,28 +115,23 @@
         <dependency>
             <groupId>com.google</groupId>
             <artifactId>api</artifactId>
-            <version></version>
+            <version>0.95</version>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>com.maxmind</groupId>
             <artifactId>geoip</artifactId>
-            <version></version>
-        </dependency>
-        <dependency>
+            <version>1.2.4</version>
+        </dependency> -->
+        <!-- <dependency>
             <groupId>com.memetix</groupId>
             <artifactId>microsoft-translator-java-api</artifactId>
             <version>0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tecnick.htmlutils</groupId>
-            <artifactId>htmlentities</artifactId>
-            <version></version>
-        </dependency>
-        <dependency>
+        </dependency> -->
+        <!-- <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20090211</version>
-        </dependency>
+        </dependency> -->
         <!-- <dependency>
             <groupId>org.json</groupId>
             <artifactId>org.json</artifactId>
