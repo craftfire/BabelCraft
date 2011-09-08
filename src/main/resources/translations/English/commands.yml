@@ -1,0 +1,10 @@
+#commands:
+#  user:
+#    register: "/translate"
+#  admin:
+#    reload: "/authdb reload"
+#aliases:
+#  user:
+#    translate: "/tl"
+#  admin:
+#    reload: "/bcraft reload"

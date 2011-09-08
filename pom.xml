@@ -13,48 +13,22 @@
     <artifactId>babelcraft</artifactId>
     <version>dev-SNAPSHOT</version>
     <name>BabelCraft</name>
-    <url>http://craftfire.com</url>
-    <description></description>
+    <url>http://www.craftfire.com</url>
+    <description>Automatic chat translation plugin and API for Bukkit-based Minecraft servers.</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <!-- License -->
     <licenses>
         <license>
             <name>Creative Commons CC BY-NC-ND 3.0</name>
-            <url>http://creativecommons.org/licenses/by-nc-nd/3.0/</url>
-            <distribution>repo</distribution>
+            <url>http://www.creativecommons.org/licenses/by-nc-nd/3.0/</url>
             <comments>This license only allows others to download your works and share them with others as long as they credit you, but they can’t change them in any way or use them commercially.</comments>
+            <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <!-- Organization -->
-    <organization>
-        <name>CraftFire</name>
-        <url>http://craftfire.com</url>
-    </organization>
-
-    <!-- Team members -->
-    <developers>
-        <developer>
-            <id>Contex</id>
-            <email>contex@craftfire.com</email>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>+1</timezone>
-            <properties>
-            </properties>
-        </developer>
-	    <developer>
-            <id>Wulfspider</id>
-            <email>wulfspider@craftfire.com</email>
-            <roles>
-                <role>architect</role>
-            </roles>
-            <timezone>-5</timezone>
-            <properties>
-            </properties>
-        </developer>
-    </developers>
 
     <!-- Source code -->
     <scm>
@@ -69,26 +43,23 @@
         <url>http://ci.craftfire.com</url>
     </ciManagement>
 
-    <!-- Distribution -->
-    <!-- <distributionManagement>
-        <repository>
-            <id>craftfire-ssh</id>
-            <url>scpexe://repo.craftfire.com</url>
-        </repository>
-    </distributionManagement> -->
-
     <!-- Repository locations -->
     <repositories>
         <repository>
             <id>craftfire-repo</id>
-            <url>http://repo.craftfire.com/repo</url>
+            <url>http://repo.craftfire.com</url>
         </repository>
         <repository>
-            <id>bukkit-repo</id>
-            <url>http://repo.bukkit.org/artifactory/repo</url>
+            <id>spout-repo</id>
+            <url>http://repo.getspout.org</url>
+        </repository>
+        <repository>
+            <id>craftfire-dbrepo</id>
+            <url>http://db.craftfire.com/repo</url>
         </repository>
     </repositories>
 
+    <!-- Dependencies -->
     <dependencies>
         <!-- Required component -->
         <!-- <dependency>
@@ -96,149 +67,156 @@
             <artifactId>util</artifactId>
             <version>1.0.0</version>
         </dependency> -->
-
         <!-- Bukkit -->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>provided</scope>
         </dependency>
-
-        <!-- CraftBukkit -->
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
         <!-- Third-party plugins -->
         <dependency>
-            <groupId>com.google</groupId>
-            <artifactId>api</artifactId>
-            <version>0.95</version>
+            <groupId>org.getspout</groupId>
+            <artifactId>spoutapi</artifactId>
+            <version>dev-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>provided</scope>
         </dependency>
-        <!-- <dependency>
-            <groupId>com.maxmind</groupId>
-            <artifactId>geoip</artifactId>
-            <version>1.2.4</version>
-        </dependency> -->
-        <!-- <dependency>
-            <groupId>com.memetix</groupId>
-            <artifactId>microsoft-translator-java-api</artifactId>
-            <version>0.3</version>
-        </dependency> -->
-        <!-- <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20090211</version>
-        </dependency> -->
+        <dependency>
+            <groupId>com.lennardf1989</groupId>
+            <artifactId>bukkitex</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
         <!-- <dependency>
             <groupId>org.json</groupId>
             <artifactId>org.json</artifactId>
             <version>2.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
         </dependency> -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20090211</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.maxmind</groupId>
+            <artifactId>geoip</artifactId>
+            <version>dev-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.api</groupId>
+            <artifactId>google-api-translate-java</artifactId>
+            <version>0.95-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.memetix</groupId>
+            <artifactId>microsoft-translator-java-api</artifactId>
+            <version>0.4-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com</groupId>
+            <artifactId>mygengo</artifactId>
+            <version>dev-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
+        <defaultGoal>clean package</defaultGoal>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
-
         <!-- Resources -->
         <resources>
             <resource>
                 <targetPath>.</targetPath>
-                <filtering>true</filtering>
-                <directory>${basedir}/src/main/resources/</directory>
+                <filtering>false</filtering>
+                <directory>${basedir}</directory>
                 <includes>
                     <include>LICENSE.txt</include>
+                </includes>
+            </resource>
+            <resource>
+                <targetPath>.</targetPath>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
                     <include>plugin.yml</include>
                 </includes>
             </resource>
             <resource>
-                <targetPath>files/config/</targetPath>
-                <filtering>true</filtering>
-                <directory>${basedir}/src/main/resources/config/</directory>
+                <targetPath>files/config</targetPath>
+                <filtering>false</filtering>
+                <directory>${basedir}/src/main/resources/config</directory>
                 <includes>
                     <include>config.yml</include>
                 </includes>
             </resource>
             <resource>
-                <targetPath>files/translations/messages/</targetPath>
-                <filtering>true</filtering>
-                <directory>${basedir}/src/main/resources/translations/messages/</directory>
+                <targetPath>files/translations/messages</targetPath>
+                <filtering>false</filtering>
+                <directory>${basedir}/src/main/resources/translations/messages</directory>
                 <includes>
                     <include>*.yml</include>
                 </includes>
             </resource>
             <resource>
-                <targetPath>files/translations/commands/</targetPath>
-                <filtering>true</filtering>
-                <directory>${basedir}/src/main/resources/translations/commands/</directory>
+                <targetPath>files/translations/commands</targetPath>
+                <filtering>false</filtering>
+                <directory>${basedir}/src/main/resources/translations/commands</directory>
                 <includes>
                     <include>*.yml</include>
                 </includes>
             </resource>
         </resources>
-
         <!-- Plugins -->
         <plugins>
-
             <!-- Compile plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
             </plugin>
-
             <!-- JAR creation plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.1</version>
-                <configuration>
-                    <archive>
-                        <addMavenDescriptor>false</addMavenDescriptor>
-                        <pomPropertiesFile>false</pomPropertiesFile>
-                        <manifest>
-                            <addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
-                            <addDefaultImplementationEntries>false</addDefaultImplementationEntries>
-                        </manifest>
-                    </archive>
-                </configuration>
+                <version>2.3.2</version>
             </plugin>
-
-            <!-- Assembly -->
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2.1</version>
-                <configuration>
-                    <descriptor>${basedir}/src/main/assembly/default.xml</descriptor>
-                </configuration>
-            </plugin>
-
-	        <!-- Deploy -->
-            <!-- <plugin>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh-external</artifactId>
-                <version>1.0-beta-7</version>
-            </plugin> -->
-
-            <!-- Release -->
+            <!-- JAR dependency addition plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    <preparationGoals>assembly:assembly</preparationGoals>
-                    <goals>assembly:assembly</goals>
-               </configuration>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <!-- <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include></include>
+                                    <include></include>
+                                </includes>
+                            </artifactSet>
+                        </configuration> -->
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
-
     </build>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <skipTests>true</skipTests>
-    </properties>
 
 </project>

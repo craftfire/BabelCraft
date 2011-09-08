@@ -1,17 +1,17 @@
-Core:
-  plugin:
-    language: en
-    debugmode: false
-    usagestats: true
-  language:
-    default: English
-    serverforced: false
-    playerset: true
-  translate:
-    internal: true
-    manual: true
-  welcome:
-    delay: 2 seconds
-    show: 10 seconds
-  geoip:
-    enabled: true
+plugin:
+  language: en
+  debugmode: false
+  usagestats: true
+language:
+  default: English
+  serverforced: false
+  playerset: true
+#translate:
+#  internal: true
+#  manual: true
+#welcome:
+#  delay: 2 seconds
+#  show: 10 seconds
+#geoip:
+#  enabled: true
+#  autoupdate: true
