@@ -28,11 +28,14 @@ import java.util.logging.Level;
 
 import org.bukkit.entity.Player;
 
+import com.craftfire.babelcraft.util.managers.PlayerManager;
 import com.google.api.translate.Language;
 import com.google.api.translate.Translate;
 import com.maxmind.geoip.LookupService;
 
 public class Util {
+	
+	PlayerManager playerManager = new PlayerManager();
 
     int hexToInt(char ch) {
         if (ch >= '0' && ch <= '9') {
@@ -76,26 +79,7 @@ public class Util {
         return r.toString();
     }
 
-    public String GetIP(Player player) {
-        return player.getAddress().getAddress().toString().substring(1);
-    }
-
-    public String GetCountryName(String IP) {
-        LookupService cl = null;
-        try {
-            cl = new LookupService(Config.dbfile, LookupService.GEOIP_MEMORY_CACHE);
-        } catch (IOException e) {
-            // TODO: Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        String CountryName = cl.getCountry(IP).getName();
-
-        cl.close();
-        return CountryName;
-    }
-
-    public static String Capitalize(String string) {
+    public String Capitalize(String string) {
         String result = "";
         Scanner scn = new Scanner(string);
         while (scn.hasNext()) {
@@ -108,7 +92,7 @@ public class Util {
         return result;
     }
 
-    public static boolean isNumeric(String input) {
+    public boolean isNumeric(String input) {
         try {
             Integer.parseInt(input);
         } catch (NumberFormatException e) {
@@ -116,12 +100,13 @@ public class Util {
         }
         return true;
     }
-    public static String replaceStrings(String string, Player player, String additional) {
-        string = string.replaceAll("\\{IP\\}", GetIP(player));
+    
+    public String replaceStrings(String string, Player player, String additional) {
+        string = string.replaceAll("\\{IP\\}", playerManager.getIP(player));
         string = string.replaceAll("\\{PLAYER\\}", player.getName());
         string = string.replaceAll("\\{NEWPLAYER\\}", "");
-        string = string.replaceAll("\\{PLUGIN\\}", Config.pluginName);
-        string = string.replaceAll("\\{VERSION\\}", Config.pluginversion);
+        string = string.replaceAll("\\{PLUGIN\\}", Variables.pluginName);
+        string = string.replaceAll("\\{VERSION\\}", Variables.pluginVersion);
         string = string.replaceAll("\\{COUNTRY\\}", "");
         
         string = string.replaceAll("&", "§");

@@ -14,6 +14,8 @@ import org.bukkit.event.player.PlayerLoginEvent;
 
 public class Messages {
 	
+	Util util = new Util();
+	
     public static String message_default_lang, message_autodetect, message_usage;
     public static String message_notsupported, message_nottranslated, message_savesuccess;
     public static String message_savefailure;
@@ -36,6 +38,6 @@ public class Messages {
     }
 
     public void SendMessage(final Message message, Player player, PlayerLoginEvent event) {
-        player.sendMessage(Util.replaceStrings(message.text, player, null));
+        player.sendMessage(util.replaceStrings(message.text, player, null));
     }
 }

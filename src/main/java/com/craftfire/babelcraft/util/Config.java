@@ -21,7 +21,8 @@ import com.craftfire.babelcraft.BabelCraft;
 
 public class Config {
     
-    public static boolean plugin_debugmode, plugin_usagestats;
+    public static boolean plugin_debugmode, plugin_usagestats, plugin_logging;
+    public static String plugin_language_commands, plugin_language_messages, plugin_logformat;
     public static String language_default;
     public static boolean language_serverforced, language_playerset;
 
@@ -32,10 +33,14 @@ public class Config {
         template.load();
         if (config.equals("config")) {
         	
+        	plugin_language_commands = GetConfigString("plugin.language.commands", "English");
+        	plugin_language_messages = GetConfigString("plugin.language.messages", "English");
             plugin_debugmode = GetConfigBoolean("plugin.debugmode", false);
             plugin_usagestats = GetConfigBoolean("plugin.usagestats", true);
+            plugin_logging = GetConfigBoolean("plugin.logging", true);
+            plugin_logformat = GetConfigString("plugin.logformat", "yyyy-MM-dd");
             
-            language_default = GetConfigString("language.default", "English");
+            language_default = GetConfigString("plugin.language.default", "English");
             language_serverforced = GetConfigBoolean("language.serverforced", false);
             language_playerset = GetConfigBoolean("language.playerset", true);
             

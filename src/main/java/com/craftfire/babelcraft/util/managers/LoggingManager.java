@@ -13,10 +13,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,11 +21,12 @@ import org.bukkit.plugin.Plugin;
 
 import com.craftfire.babelcraft.BabelCraft;
 import com.craftfire.babelcraft.util.Config;
+import com.craftfire.babelcraft.util.Variables;
 
 
 public class LoggingManager {
-    BabelCraft plugin = Config.plugin;
-    String pluginName = Config.pluginName;
+    BabelCraft plugin = Variables.plugin;
+    String pluginName = Variables.pluginName;
     String logFolder = plugin.getDataFolder() + "/logs/";
 
     public static enum Type {
@@ -110,8 +107,8 @@ public class LoggingManager {
         plainWarning("File name: " + file);
         plainWarning("Function name: " + function);
         plainWarning("Error line: " + linenumber);
-        if (Config.logging_enabled) {
-            DateFormat LogFormat = new SimpleDateFormat(config.logformat);
+        if (Config.plugin_logging) {
+            DateFormat LogFormat = new SimpleDateFormat(Config.plugin_logformat);
             Date date = new Date();
             plainWarning("Check log file: " + plugin.getDataFolder() + "\\logs\\error\\" + LogFormat.format(date) + "-error.log");
         } else {
@@ -123,7 +120,7 @@ public class LoggingManager {
         logError("File name: " + file);
         logError("Function name: " + function);
         logError("Error line: " + linenumber);
-        logError("BabelCraft version: " + Config.pluginVersion);
+        logError("BabelCraft version: " + Variables.pluginVersion);
         Plugin[] plugins = plugin.getServer().getPluginManager().getPlugins();
         int counter = 0;
         StringBuffer pluginsList = new StringBuffer();
@@ -149,7 +146,7 @@ public class LoggingManager {
     }
 
     private void ToFile(Type type, String line, String logFolder) {
-        if (Config.logging_enabled) {
+        if (Config.plugin_logging) {
             File data = new File(logFolder, "");
             if (!data.exists()) {
                 if (data.mkdir()) {
@@ -162,7 +159,7 @@ public class LoggingManager {
                    debug("Created missing directory: " + logFolder + type.toString());
                 }
             }
-            DateFormat LogFormat = new SimpleDateFormat(Config.logformat);
+            DateFormat LogFormat = new SimpleDateFormat(Config.plugin_logformat);
             Date date = new Date();
             data = new File(logFolder + type.toString() + "/" + LogFormat.format(date) + "-" + type.toString() + ".log");
             if (!data.exists()) {

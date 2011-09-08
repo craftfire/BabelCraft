@@ -19,10 +19,16 @@ import com.craftfire.babelcraft.BabelCraft;
 import com.craftfire.babelcraft.util.Config;
 import com.craftfire.babelcraft.util.Util;
 import com.craftfire.babelcraft.util.Variables;
+import com.craftfire.babelcraft.util.managers.LoggingManager;
+import com.craftfire.babelcraft.util.managers.PlayerManager;
+import com.craftfire.babelcraft.util.managers.TranslationManager;
 
 import com.google.api.translate.Language;
 
 public class BabelCraftPlayerListener extends PlayerListener {
+	TranslationManager translation = new TranslationManager();
+	PlayerManager playerManager = new PlayerManager();
+	LoggingManager logging = new LoggingManager();
     private final BabelCraft plugin;
     String TempPrefix;
     public BabelCraftPlayerListener(BabelCraft instance) {
@@ -36,8 +42,8 @@ public class BabelCraftPlayerListener extends PlayerListener {
 
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (Util.PlayerDatabase("check", event.getPlayer(), null, null)) {
-            Language lang = Util.GetPlayerLanguageHash(event.getPlayer());
-            event.getPlayer().sendMessage(Config.plugin_prefix + "Your current language is §c" + Util.LanguageName("" + lang) + "§f.");
+            Language lang = translation.GetPlayerLanguageHash(event.getPlayer());
+            event.getPlayer().sendMessage(Variables.plugin_prefix + "Your current language is §c" + translation.LanguageName("" + lang) + "§f.");
             event.getPlayer().sendMessage(TempPrefix + "To change this, use /lang <language>");
         } else {
             if (!Util.ToFile("check", event.getPlayer().getName().toLowerCase(), null)) {
@@ -47,11 +53,11 @@ public class BabelCraftPlayerListener extends PlayerListener {
                 }
                 Util.ToFile("write", event.getPlayer().getName().toLowerCase() + ":" + Util.LanguageCode(Config.language_default).toLowerCase(), null);
                 Util.PlayerDatabase("add", event.getPlayer(), Config.language_default, CountryCode);
-                event.getPlayer().sendMessage(Config.plugin_prefix + "Your language has been set to §c" + Util.LanguageName(Config.language_default) + "§f");
+                event.getPlayer().sendMessage(Config.plugin_prefix + "Your language has been set to §c" + translation.LanguageName(Config.language_default) + "§f");
                 event.getPlayer().sendMessage(TempPrefix + "To change this, use /lang <language>");
             } else {
-                Language lang = Util.GetLanguage(event.getPlayer(), null);
-                event.getPlayer().sendMessage(Config.plugin_prefix + "Your current language is §c" + Util.LanguageName("" + lang) + "§f.");
+                Language lang = translation.GetLanguage(event.getPlayer(), null);
+                event.getPlayer().sendMessage(Variables.plugin_prefix + "Your current language is §c" + translation.LanguageName("" + lang) + "§f.");
                 event.getPlayer().sendMessage(TempPrefix + "To change this, use /lang <language>");
             }
         }
@@ -104,23 +110,23 @@ public class BabelCraftPlayerListener extends PlayerListener {
                     } else {
                         player.sendMessage(Variables.plugin_prefix + "Correct usage is: /lang search <String>");
                     }
-                } else if (Util.IsLanguageSupported(parameter1)) {
+                } else if (translation.IsLanguageSupported(parameter1)) {
                     if (!Util.ToFile("check", event.getPlayer().getName().toLowerCase(), null)) {
                         Util.ToFile("write", event.getPlayer().getName().toLowerCase() + ":" + parameter1, null);
-                        String CountryCode = Util.GetCountryCode(Util.GetIP(event.getPlayer()));
+                        String CountryCode = translation.GetCountryCode(playerManager.getIP(event.getPlayer()));
                         if (CountryCode.equals("--")) {
                             CountryCode = "localhost";
                         }
                         Util.PlayerDatabase("add", event.getPlayer(), parameter1, CountryCode);
                     } else {
-                        String CountryCode = Util.GetCountryCode(Util.GetIP(event.getPlayer()));
+                        String CountryCode = translation.GetCountryCode(playerManager.getIP(event.getPlayer()));
                         if (CountryCode.equals("--")) {
                             CountryCode = "localhost";
                         }
                         Util.PlayerDatabase("add", event.getPlayer(), parameter1, CountryCode);
                         Util.ToFile("change", event.getPlayer().getName().toLowerCase(), parameter1);
                         player.sendMessage(Variables.plugin_prefix + "Successfully changed your chat language to");
-                        player.sendMessage(TempPrefix + "§c" + Util.LanguageName(parameter1) + "§f!");
+                        player.sendMessage(TempPrefix + "§c" + translation.LanguageName(parameter1) + "§f!");
                     }
                 } else {
                     player.sendMessage(Variables.plugin_prefix + "Unsupported language!");
@@ -131,12 +137,12 @@ public class BabelCraftPlayerListener extends PlayerListener {
                 boolean isin = Util.PlayerDatabase("check", event.getPlayer(), null, null);
                 Language lang;
                 if (isin) {
-                    lang = Util.GetPlayerLanguageHash(event.getPlayer());
+                    lang = translation.GetPlayerLanguageHash(event.getPlayer());
                 } else {
-                    lang = Util.GetLanguage(event.getPlayer(), "to");
+                    lang = translation.GetLanguage(event.getPlayer(), "to");
                 }
 
-                player.sendMessage(Variables.plugin_prefix + "Your current language is §c" + Util.LanguageName("" + lang) + "§f.");
+                player.sendMessage(Variables.plugin_prefix + "Your current language is §c" + translation.LanguageName("" + lang) + "§f.");
                 player.sendMessage(TempPrefix + "To change this, use /lang <language>");
                 player.sendMessage(TempPrefix + "To list the languages, use /lang <pagenumber>");
                 player.sendMessage(TempPrefix + "To search, use /lang search <string>");
@@ -150,14 +156,14 @@ public class BabelCraftPlayerListener extends PlayerListener {
             boolean isin = Util.PlayerDatabase("check", event.getPlayer(), null, null);
             Language langfrom;
             if (isin) {
-                langfrom = Util.GetPlayerLanguageHash(event.getPlayer());
+                langfrom = translation.GetPlayerLanguageHash(event.getPlayer());
             } else {
-                langfrom = Util.GetLanguage(event.getPlayer(), "from");
+                langfrom = translation.GetLanguage(event.getPlayer(), "from");
             }
             // int counter = 0;
             if (Config.language_serverforced) {
                 Language langto = Language.fromString(Config.language_default.toLowerCase());
-                String NewMessage = Util.Translate(event.getMessage(), langfrom, langto);
+                String NewMessage = translation.Translate(event.getMessage(), langfrom, langto);
                 /* if (counter == 0 && NewMessage.equals(event.getMessage())) {
                     event.getPlayer().sendMessage(Config.plugin_prefix + "The message below could not be translated.");
                     counter++;
@@ -196,24 +202,24 @@ public class BabelCraftPlayerListener extends PlayerListener {
                         }
                     }
                 } else { */
-                for (Player player : Config.Server.getOnlinePlayers()) {
+                for (Player player : Variables.server.getOnlinePlayers()) {
                     boolean isin2 = Util.PlayerDatabase("check", player, null, null);
                     Language langto;
                     if (isin2) {
-                        langto = Util.GetPlayerLanguageHash(player);
+                        langto = translation.GetPlayerLanguageHash(player);
                     } else {
-                        langto = Util.GetLanguage(player, "to");
+                        langto = translation.GetLanguage(player, "to");
                     }
                     String NewMessage = null;
                     if (langfrom.equals(langto)) {
                         NewMessage = event.getMessage();
                         player.sendMessage(event.getPlayer().getName() + ": " + NewMessage);
                     } else {
-                        NewMessage = Util.Translate(event.getMessage(), langfrom, langto);
+                        NewMessage = translation.Translate(event.getMessage(), langfrom, langto);
                         player.sendMessage(event.getPlayer().getName() + ": " + NewMessage);
                     }
                     if (tempcounter == 0) {
-                        Config.log.info(event.getPlayer().getName() + ": " + NewMessage);
+                    	logging.info(event.getPlayer().getName() + ": " + NewMessage);
                         tempcounter++;
                     }
                     /* if (counter == 0 && NewMessage.equals(event.getMessage()) && player != event.getPlayer()) {

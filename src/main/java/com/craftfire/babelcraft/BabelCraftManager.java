@@ -4,11 +4,15 @@ import org.bukkit.entity.Player;
 
 import com.craftfire.babelcraft.util.Config;
 import com.craftfire.babelcraft.util.Util;
+import com.craftfire.babelcraft.util.managers.PlayerManager;
+import com.craftfire.babelcraft.util.managers.TranslationManager;
 import com.google.api.translate.Language;
 
 public class BabelCraftManager {
 	
 	Util util = new Util();
+	TranslationManager translation = new TranslationManager();
+	PlayerManager playerManager = new PlayerManager();
 	
     public String Translate(String message, Player player) {
         Language lang;
@@ -17,21 +21,21 @@ public class BabelCraftManager {
         } else {
             boolean isin = util.PlayerDatabase("check", player, null, null);
             if (isin) {
-                lang = util.GetPlayerLanguageHash(player);
+                lang = translation.GetPlayerLanguageHash(player);
             } else {
-                lang = util.GetLanguage(player, "to");
+                lang = translation.GetLanguage(player, "to");
             }
         }
-        return  util.Translate(message, Language.AUTO_DETECT, lang);
+        return  translation.Translate(message, Language.AUTO_DETECT, lang);
     }
     
     public String getLanguage(Player player) {
         boolean isin = util.PlayerDatabase("check", player, null, null);
         Language lang;
         if (isin) {
-            lang = util.GetPlayerLanguageHash(player);
+            lang = translation.GetPlayerLanguageHash(player);
         } else {
-            lang = util.GetLanguage(player, "from");
+            lang = translation.GetLanguage(player, "from");
         }
         return util.LanguageName("" + lang).toLowerCase();
     }
@@ -40,15 +44,15 @@ public class BabelCraftManager {
         boolean isin = util.PlayerDatabase("check", player, null, null);
         Language lang;
         if (isin) {
-            lang = util.GetPlayerLanguageHash(player);
+            lang = translation.GetPlayerLanguageHash(player);
         } else {
-            lang = util.GetLanguage(player, "from");
+            lang = translation.GetLanguage(player, "from");
         }
         return util.LanguageCode("" + lang).toLowerCase();
     }
 
     public String getCountry(Player player) {
-        String CountryName = util.GetCountryName(Util.GetIP(player));
+        String CountryName = translation.GetCountryName(playerManager.getIP(player));
         return  CountryName.toLowerCase();
     }
 
@@ -56,9 +60,9 @@ public class BabelCraftManager {
         boolean isin = util.PlayerDatabase("check", player, null, null);
         String CountryCode;
         if (isin) {
-            CountryCode = util.GetPlayerCountryHash(player);
+            CountryCode = translation.GetPlayerCountryHash(player);
         } else {
-            CountryCode = util.GetCountryCode(Util.GetIP(player));
+            CountryCode = translation.GetCountryCode(playerManager.getIP(player));
         }
         return  CountryCode.toLowerCase();
     }
