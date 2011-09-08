@@ -56,7 +56,7 @@ public class BabelCraft extends JavaPlugin {
             String max = "" + getServer().getMaxPlayers();
 
             try {
-                Util.PostInfo(getServer().getName(),getServer().getVersion(), Config.pluginversion, System.getProperty("os.name"), System.getProperty("os.version"), System.getProperty("os.arch"), System.getProperty("java.version"), "", "", Plugins, online, max, Config.Server.getPort());
+                Util.PostInfo(getServer().getName(), getServer().getVersion(), Config.pluginversion, System.getProperty("os.name"), System.getProperty("os.version"), System.getProperty("os.arch"), System.getProperty("java.version"), "", "", Plugins, online, max, Config.Server.getPort());
             } catch (IOException e1) {
                 Util.Debug("Could not send data to main server.");
             }

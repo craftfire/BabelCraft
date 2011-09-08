@@ -64,10 +64,10 @@
         <!-- Required component -->
         <!-- <dependency>
             <groupId>com.craftfire</groupId>
-            <artifactId>util</artifactId>
+            <artifactId>craftfirelib</artifactId>
             <version>1.0.0</version>
         </dependency> -->
-        <!-- Bukkit -->
+        <!-- Third-party -->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
@@ -75,7 +75,6 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-        <!-- Third-party plugins -->
         <dependency>
             <groupId>org.getspout</groupId>
             <artifactId>spoutapi</artifactId>
@@ -205,14 +204,18 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                        <!-- <configuration>
+                        <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include></include>
-                                    <include></include>
+                                    <!-- <include>com.craftfire:craftfirelib</include> -->
+                                    <include>com.lennardf1989:bukkitex</include>
+                                    <include>org.json:json</include>
+                                    <include>com.google.api:google-api-translate-java</include>
+                                    <include>com.memetix:microsoft-translator-java-api</include>
+                                    <include>com:mygengo</include>
                                 </includes>
                             </artifactSet>
-                        </configuration> -->
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
