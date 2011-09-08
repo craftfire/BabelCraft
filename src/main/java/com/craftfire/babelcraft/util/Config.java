@@ -13,55 +13,32 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import org.bukkit.Server;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.util.config.Configuration;
 
+import com.craftfire.babelcraft.BabelCraft;
+
 public class Config {
-    ///////////////////////////////////////////
-    //               GLOBAL
-    ///////////////////////////////////////////
-    public static org.bukkit.Server Server;
-    public static String pluginname = "BabelCraft"; // TODO: pull plugin name from plugin.yml
-    public static String pluginversion = "1.1.0"; // TODO: pull plugin version from plugin.yml
-
-    public static Logger log = Logger.getLogger("Minecraft");
-    public static String players = "players.db";  // TODO: Move to eBeans persistence
-    public static HashMap<String, String> playerdatabase = new HashMap<String, String>();
-
-    public static String dbfile = "plugins/" + pluginname + "/data/GeoIP.dat"; // TODO: Create variable for data folder?
-
-    public static String plugin_prefix = "§cBabel§fCraft §7> §f"; // TODO: Add option to customize in messages.yml
-    public static String nextline_tag = "                 ";
-    public static boolean plugintag = false;
-
-    ///////////////////////////////////////////
-    //               plugin
-    ///////////////////////////////////////////
+    
     public static boolean plugin_debugmode, plugin_usagestats;
-
-    ///////////////////////////////////////////
-    //               language
-    ///////////////////////////////////////////
     public static String language_default;
     public static boolean language_serverforced, language_playerset;
 
-    public static Configuration template = null;
+    public Configuration template = null;
 
     public Config(String config, String directory, String filename) {
         template = new Configuration(new File(directory, filename));
         template.load();
         if (config.equals("config")) {
-            ///////////////////////////////////////////
-            //               plugin
-            ///////////////////////////////////////////
+        	
             plugin_debugmode = GetConfigBoolean("plugin.debugmode", false);
             plugin_usagestats = GetConfigBoolean("plugin.usagestats", true);
-
-            ///////////////////////////////////////////
-            //               language
-            ///////////////////////////////////////////
+            
             language_default = GetConfigString("language.default", "English");
             language_serverforced = GetConfigBoolean("language.serverforced", false);
             language_playerset = GetConfigBoolean("language.playerset", true);
+            
         } else if (config.equals("messages")) {
             ///////////////////////////////////////////
             //               language
@@ -76,11 +53,11 @@ public class Config {
         }
     }
 
-    public static String GetConfigString(String key, String defaultvalue) {
+    public String GetConfigString(String key, String defaultvalue) {
         return template.getString(key, defaultvalue);
     }
 
-    public static boolean GetConfigBoolean(String key, boolean defaultvalue) {
+    public boolean GetConfigBoolean(String key, boolean defaultvalue) {
         return template.getBoolean(key, defaultvalue);
     }
 

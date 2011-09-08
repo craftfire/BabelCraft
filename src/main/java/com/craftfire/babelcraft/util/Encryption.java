@@ -15,12 +15,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Encryption {
-    public static String md5(String data) {
+	
+	Util util = new Util();
+	
+    public String md5(String data) {
         try {
             byte[] bytes = data.getBytes("ISO-8859-1");
             MessageDigest md5er = MessageDigest.getInstance("MD5");
             byte[] hash = md5er.digest(bytes);
-            return Util.bytes2hex(hash);
+            return util.bytes2hex(hash);
         } catch (GeneralSecurityException e) {
             throw new RuntimeException(e);
         } catch (UnsupportedEncodingException e) {
@@ -28,16 +31,16 @@ public class Encryption {
         }
     }
 
-    public static String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md;
         md = MessageDigest.getInstance("SHA-1");
         byte[] sha1hash = new byte[40];
         md.update(text.getBytes("iso-8859-1"), 0, text.length());
         sha1hash = md.digest();
-        return Util.convertToHex(sha1hash);
+        return util.convertToHex(sha1hash);
     }
 
-    public static String SHA256(String text) {
+    public String SHA256(String text) {
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("SHA-256");
@@ -63,7 +66,7 @@ public class Encryption {
         return hexString.toString();
     }
 
-    public static String SHA512(String text) {
+    public String SHA512(String text) {
         StringBuffer sb = new StringBuffer();
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
@@ -85,12 +88,12 @@ public class Encryption {
         return new String(sb);
     }
 
-    public static String pack(String hex) {
+    public String pack(String hex) {
         StringBuffer buf = new StringBuffer();
         for (int i = 0; i < hex.length(); i += 2) {
             char c1 = hex.charAt(i);
             char c2 = hex.charAt(i + 1);
-            char packed = (char) (Util.hexToInt(c1) * 16 + Util.hexToInt(c2));
+            char packed = (char) (util.hexToInt(c1) * 16 + util.hexToInt(c2));
             buf.append(packed);
         }
         return buf.toString();

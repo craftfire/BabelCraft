@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerListener;
 import com.craftfire.babelcraft.BabelCraft;
 import com.craftfire.babelcraft.util.Config;
 import com.craftfire.babelcraft.util.Util;
+import com.craftfire.babelcraft.util.Variables;
 
 import com.google.api.translate.Language;
 
@@ -26,10 +27,10 @@ public class BabelCraftPlayerListener extends PlayerListener {
     String TempPrefix;
     public BabelCraftPlayerListener(BabelCraft instance) {
         this.plugin = instance;
-        if (Config.plugintag) {
-            TempPrefix = Config.plugin_prefix;
+        if (Variables.plugintag) {
+            TempPrefix = Variables.plugin_prefix;
         } else {
-            TempPrefix = Config.nextline_tag;
+            TempPrefix = Variables.nextline_tag;
         }
     }
 
@@ -54,9 +55,6 @@ public class BabelCraftPlayerListener extends PlayerListener {
                 event.getPlayer().sendMessage(TempPrefix + "To change this, use /lang <language>");
             }
         }
-        // else {
-        //     BabelCraft.ToFile("remove", event.getPlayer().getName().toLowerCase(),null);
-        // }
     }
 
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
@@ -76,11 +74,11 @@ public class BabelCraftPlayerListener extends PlayerListener {
                         x1 = 10 * page;
                     }
                     int x2 = x1 + 8;
-                    player.sendMessage(Config.plugin_prefix + "§c------------------Page " + page + "------------------");
+                    player.sendMessage(Variables.plugin_prefix + "§c------------------Page " + page + "------------------");
 
                     for (Language l : Language.values()) {
                         if (counter >= x1 && counter <= x2) {
-                            player.sendMessage(Config.plugin_prefix + Util.Capitalize(l.name().toLowerCase()) + " - " + l);
+                            player.sendMessage(Variables.plugin_prefix + Util.Capitalize(l.name().toLowerCase()) + " - " + l);
                         }
                         counter++;
                     }
@@ -88,7 +86,7 @@ public class BabelCraftPlayerListener extends PlayerListener {
                     if (split.length == 3)  {
                         int counter = 0;
                         String parameter2 = split[2];
-                        player.sendMessage(Config.plugin_prefix + "§c--------Searching results for '" + parameter2 + "'----------");
+                        player.sendMessage(Variables.plugin_prefix + "§c--------Searching results for '" + parameter2 + "'----------");
                         for (Language l : Language.values()) {
                             if (!l.name().toLowerCase().equals("auto_detect")) {
                                 if (l.name().toLowerCase().startsWith(parameter2.toLowerCase()))  {
@@ -104,7 +102,7 @@ public class BabelCraftPlayerListener extends PlayerListener {
                             player.sendMessage(TempPrefix + "Could not find any languages for string '" + parameter2 + "'");
                         }
                     } else {
-                        player.sendMessage(Config.plugin_prefix + "Correct usage is: /lang search <String>");
+                        player.sendMessage(Variables.plugin_prefix + "Correct usage is: /lang search <String>");
                     }
                 } else if (Util.IsLanguageSupported(parameter1)) {
                     if (!Util.ToFile("check", event.getPlayer().getName().toLowerCase(), null)) {
@@ -121,11 +119,11 @@ public class BabelCraftPlayerListener extends PlayerListener {
                         }
                         Util.PlayerDatabase("add", event.getPlayer(), parameter1, CountryCode);
                         Util.ToFile("change", event.getPlayer().getName().toLowerCase(), parameter1);
-                        player.sendMessage(Config.plugin_prefix + "Successfully changed your chat language to");
+                        player.sendMessage(Variables.plugin_prefix + "Successfully changed your chat language to");
                         player.sendMessage(TempPrefix + "§c" + Util.LanguageName(parameter1) + "§f!");
                     }
                 } else {
-                    player.sendMessage(Config.plugin_prefix + "Unsupported language!");
+                    player.sendMessage(Variables.plugin_prefix + "Unsupported language!");
                     player.sendMessage(TempPrefix + "Use /lang <pagenumber> for a list.");
                     player.sendMessage(TempPrefix + "Or search with /lang search <string>");
                 }
@@ -138,7 +136,7 @@ public class BabelCraftPlayerListener extends PlayerListener {
                     lang = Util.GetLanguage(event.getPlayer(), "to");
                 }
 
-                player.sendMessage(Config.plugin_prefix + "Your current language is §c" + Util.LanguageName("" + lang) + "§f.");
+                player.sendMessage(Variables.plugin_prefix + "Your current language is §c" + Util.LanguageName("" + lang) + "§f.");
                 player.sendMessage(TempPrefix + "To change this, use /lang <language>");
                 player.sendMessage(TempPrefix + "To list the languages, use /lang <pagenumber>");
                 player.sendMessage(TempPrefix + "To search, use /lang search <string>");

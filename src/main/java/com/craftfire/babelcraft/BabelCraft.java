@@ -9,9 +9,10 @@ or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisc
 
 package com.craftfire.babelcraft;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -22,26 +23,33 @@ import com.craftfire.babelcraft.listeners.BabelCraftPlayerListener;
 import com.craftfire.babelcraft.listeners.BabelCraftServerListener;
 import com.craftfire.babelcraft.util.Config;
 import com.craftfire.babelcraft.util.Util;
-
-import com.google.api.translate.Language;
+import com.craftfire.babelcraft.util.Variables;
+import com.craftfire.babelcraft.util.managers.CraftFireManager;
+import com.craftfire.babelcraft.util.managers.LoggingManager;
 
 public class BabelCraft extends JavaPlugin {
-    public boolean zHeroChat = false;
     private final BabelCraftPlayerListener playerListener = new BabelCraftPlayerListener(this);
     private final BabelCraftServerListener serverListener = new BabelCraftServerListener(this);
+    public Logger log = Logger.getLogger("Minecraft");
+    Util util = new Util();
+    LoggingManager logging = new LoggingManager();
+    CraftFireManager craftFire = new CraftFireManager();
     PluginDescriptionFile pluginFile = getDescription();
 
-    public void onLoad() {
-    }
-
     public void onDisable() {
-        Config.playerdatabase.clear();
+        
     }
 
     public void onEnable() {
-        Config.Server = getServer();
+    	Variables.server = getServer();
+    	Variables.pluginName = getDescription().getName();
+    	Variables.pluginVersion = getDescription().getVersion();
+        Variables.pluginWebsite = getDescription().getWebsite();
+        Variables.pluginDescrption = getDescription().getDescription();
+        Variables.plugin = this;
+        
         if (Config.plugin_usagestats) {
-            Plugin[] plugins = Config.Server.getPluginManager().getPlugins();
+            Plugin[] plugins = Variables.server.getPluginManager().getPlugins();
             int counter = 0;
             String Plugins = "";
             while (plugins.length > counter) {
@@ -56,79 +64,73 @@ public class BabelCraft extends JavaPlugin {
             String max = "" + getServer().getMaxPlayers();
 
             try {
-                Util.PostInfo(getServer().getName(), getServer().getVersion(), Config.pluginversion, System.getProperty("os.name"), System.getProperty("os.version"), System.getProperty("os.arch"), System.getProperty("java.version"), "", "", Plugins, online, max, Config.Server.getPort());
+            	craftFire.postInfo(getServer().getName(), getServer().getVersion(), Variables.pluginVersion, System.getProperty("os.name"), System.getProperty("os.version"), System.getProperty("os.arch"), System.getProperty("java.version"), "", "", Plugins, online, max, Variables.server.getPort());
             } catch (IOException e1) {
-                Util.Debug("Could not send data to main server.");
+                logging.debug("Could not send data to main server.");
             }
         }
 
-        Config TheConfig = new Config("config", "plugins/" + Config.pluginname + "/", "config.yml");
-        if (null == getConfiguration().getKeys("Core")) {
-            Util.Log("info", "config.yml could not be found in plugins/" + Config.pluginname + "/ -- disabling!");
-            getServer().getPluginManager().disablePlugin(((Plugin) (this)));
-            return;
+        String fileName = "basic.yml";
+        String configFile = "config";
+        File f = new File(getDataFolder() + "/config/" + fileName);
+        if (!f.exists()) {
+            logging.info(fileName + " could not be found in " + getDataFolder() + "/config/! Creating " + fileName + "!");
+            defaultFile(fileName, "config");
         }
+        new Config(configFile, getDataFolder() + "/config/", fileName);
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvent(Event.Type.PLAYER_JOIN, this.playerListener, Event.Priority.Low, this);
-        pm.registerEvent(Event.Type.PLAYER_CHAT, this.playerListener, Event.Priority.Low, this);
+        pm.registerEvent(Event.Type.PLAYER_CHAT, this.playerListener, Event.Priority.Lowest, this);
         pm.registerEvent(Event.Type.PLUGIN_ENABLE, this.serverListener, Event.Priority.Low, this);
         pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this.playerListener, Event.Priority.High, this);
 
-        Util.Log("info", Config.pluginname + " plugin " + Config.pluginversion + " is enabled");
-        Util.Log("info", Config.pluginname + " is developed by CraftFire <dev@craftfire.com>");
+        logging.info(Variables.pluginVersion + " is enabled");
+        logging.debug("Debug is ENABLED, get ready for some heavy spam");
+        logging.info("developed by CraftFire <dev@craftfire.com>");
     }
-
-    public static String Translate(String message, Player player) {
-        Language lang;
-        if (Config.language_serverforced) {
-            lang = Language.fromString(Config.language_default);
-        } else {
-            boolean isin = Util.PlayerDatabase("check", player, null, null);
-            if (isin) {
-                lang = Util.GetPlayerLanguageHash(player);
-            } else {
-                lang = Util.GetLanguage(player, "to");
+    
+    private void defaultFile(String name, String folder) {
+        File actual = new File(getDataFolder() + "/" + folder + "/", name);
+        File direc = new File(getDataFolder() + "/" + folder + "/", "");
+        if (!direc.exists()) {
+            if (direc.mkdir()) {
+                logging.debug("Sucesfully created directory: "+direc);
             }
         }
-        return  Util.Translate(message, Language.AUTO_DETECT, lang);
-    }
-    public static String getLanguage(Player player) {
-        boolean isin = Util.PlayerDatabase("check", player, null, null);
-        Language lang;
-        if (isin) {
-            lang = Util.GetPlayerLanguageHash(player);
-        } else {
-            lang = Util.GetLanguage(player, "from");
-        }
-        return Util.LanguageName("" + lang).toLowerCase();
-    }
+        if (!actual.exists()) {
+          java.io.InputStream input = getClass().getResourceAsStream("/files/" + folder + "/" + name);
+          if (input != null) {
+              java.io.FileOutputStream output = null;
+            try {
+              output = new java.io.FileOutputStream(actual);
+              byte[] buf = new byte[8192];
+              int length = 0;
 
-    public static String getLanguageCode(Player player) {
-        boolean isin = Util.PlayerDatabase("check", player, null, null);
-        Language lang;
-        if (isin) {
-            lang = Util.GetPlayerLanguageHash(player);
-        } else {
-            lang = Util.GetLanguage(player, "from");
-        }
-        return Util.LanguageCode("" + lang).toLowerCase();
-    }
+              while ((length = input.read(buf)) > 0) {
+                output.write(buf, 0, length);
+              }
 
-    public static String getCountry(Player player) {
-        boolean isin = Util.PlayerDatabase("check", player, null, null);
-        String CountryName = Util.GetCountryName(Util.GetIP(player));
-        return  CountryName.toLowerCase();
-    }
-
-    public static String getCountryCode(Player player) {
-        boolean isin = Util.PlayerDatabase("check", player, null, null);
-        String CountryCode;
-        if (isin) {
-            CountryCode = Util.GetPlayerCountryHash(player);
-        } else {
-            CountryCode = Util.GetCountryCode(Util.GetIP(player));
+              System.out.println("[" + Variables.pluginName + "] Written default setup for " + name);
+            } catch (Exception e) {
+              logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
+            } finally {
+              try {
+                if (input != null) {
+                    input.close();
+                }
+              } catch (Exception e) {
+                  logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
+              }
+              try {
+                if (output != null) {
+                  output.close();
+                }
+              } catch (Exception e) {
+                  logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
+              }
+            }
         }
-        return  CountryCode.toLowerCase();
     }
+}
 }

@@ -12,6 +12,29 @@ Track and submit issues and bugs on our [issue tracker][Issues].
 
 [![][Twitter Button]][Twitter] [![][Facebook Button]][Facebook]
 
+Source
+------
+The latest and greatest source can be found on [GitHub].  
+Download the latest builds from [Jenkins].  
+View the latest [Javadoc].
+
+Compiling
+---------
+BabelCraft uses Maven to handle its dependencies.
+
+BabelCraft requires Bukkit and other dependencies (preferrably the latest versions or source).  
+* Install [Maven 2 or 3](http://maven.apache.org/download.html)  
+* Checkout this repo and run: `mvn clean package`
+
+Other required dependencies:  
+* SpoutAPI  
+* BukkitEx  
+* JSON  
+* MaxMinds GeoIP  
+* Google Translation API (Unofficial)  
+* Microsoft Translation API (Unofficial)  
+* myGengo Translation API (Official)
+
 Coding and Pull Request Conventions
 -----------------------------------
 * We generally follow the Sun/Oracle coding standards.

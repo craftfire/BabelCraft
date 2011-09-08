@@ -13,26 +13,29 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 public class Messages {
-    ///////////////////////////////////////////
-    //               language
-    ///////////////////////////////////////////
-    public static String message_default, message_autodetect, message_usage, message_notsupported, message_nottranslated, message_savesuccess, message_savefailure;
+	
+    public static String message_default_lang, message_autodetect, message_usage;
+    public static String message_notsupported, message_nottranslated, message_savesuccess;
+    public static String message_savefailure;
+    
+    public enum Message {
+    	default_lang (message_default_lang),
+    	autodetect (message_autodetect),
+    	usage (message_usage),
+    	notsupported (message_notsupported),
+    	nottranslated (message_nottranslated),
+    	savesuccess (message_savesuccess),
+    	savefailure (message_savefailure);
+    	
+    	public String text;
+    	
+    	Message (String text) {
+    		this.text = text;
+    	}
+    	
+    }
 
-    public static void SendMessage(String type, Player player, PlayerLoginEvent event) {
-        if (type.equals("message_default")) {
-            player.sendMessage(Util.replaceStrings(message_default, player, null));
-        } else if (type.equals("message_autodetect")) {
-            player.sendMessage(Util.replaceStrings(message_autodetect, player, null));
-        } else if (type.equals("message_usage")) {
-            player.sendMessage(Util.replaceStrings(message_usage, player, null));
-        } else if (type.equals("message_notsupported")) {
-            player.sendMessage(Util.replaceStrings(message_notsupported, player, null));
-        } else if (type.equals("message_nottranslated")) {
-            player.sendMessage(Util.replaceStrings(message_nottranslated, player, null));
-        } else if (type.equals("message_savesuccess")) {
-            player.sendMessage(Util.replaceStrings(message_savesuccess, player, null));
-        } else if (type.equals("message_savefailure")) {
-            player.sendMessage(Util.replaceStrings(message_savefailure, player, null));
-        }
+    public void SendMessage(final Message message, Player player, PlayerLoginEvent event) {
+        player.sendMessage(Util.replaceStrings(message.text, player, null));
     }
 }
