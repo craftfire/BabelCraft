@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import com.craftfire.babelcraft.util.Config;
 import com.craftfire.babelcraft.util.Util;
+import com.craftfire.babelcraft.util.Variables;
 import com.google.api.translate.Language;
 import com.google.api.translate.Translate;
 import com.maxmind.geoip.LookupService;
@@ -95,7 +96,7 @@ public class TranslationManager {
     public String getCountryCode(String IP) {
         LookupService cl = null;
         try {
-            cl = new LookupService(Config.dbfile, LookupService.GEOIP_MEMORY_CACHE);
+            cl = new LookupService(Variables.dbfile, LookupService.GEOIP_MEMORY_CACHE);
         } catch (IOException e) {
             // TODO: Auto-generated catch block
             e.printStackTrace();
@@ -113,7 +114,7 @@ public class TranslationManager {
     public String getCountryName(String IP) {
         LookupService cl = null;
         try {
-            cl = new LookupService(Config.dbfile, LookupService.GEOIP_MEMORY_CACHE);
+            cl = new LookupService(Variables.dbfile, LookupService.GEOIP_MEMORY_CACHE);
         } catch (IOException e) {
             // TODO: Auto-generated catch block
             e.printStackTrace();

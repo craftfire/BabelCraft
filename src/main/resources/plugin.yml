@@ -1,5 +1,5 @@
 name: BabelCraft
-version: 1.1.0.${build.number}
+version: 1.2.0.${build.number}
 description: Automatic chat translation plugin and API for CraftBukkit.
 authors: [CraftFire, Contex, Wulfspider]
 website: http://www.craftfire.com

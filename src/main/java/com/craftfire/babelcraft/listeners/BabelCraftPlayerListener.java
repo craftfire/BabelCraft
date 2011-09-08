@@ -160,48 +160,12 @@ public class BabelCraftPlayerListener extends PlayerListener {
             } else {
                 langfrom = translation.GetLanguage(event.getPlayer(), "from");
             }
-            // int counter = 0;
             if (Config.language_serverforced) {
                 Language langto = Language.fromString(Config.language_default.toLowerCase());
-                String NewMessage = translation.Translate(event.getMessage(), langfrom, langto);
-                /* if (counter == 0 && NewMessage.equals(event.getMessage())) {
-                    event.getPlayer().sendMessage(Config.plugin_prefix + "The message below could not be translated.");
-                    counter++;
-                } */
-                // Config.Server.broadcastMessage(event.getPlayer().getName() + ": " + NewMessage);
+                String NewMessage = translation.translate(event.getMessage(), langfrom, langto);
                 event.setMessage(NewMessage);
-                // Config.log.info(event.getPlayer().getName() + ": " + NewMessage);
             } else if (Config.language_playerset) {
                 int tempcounter = 0;
-                /* if (this.plugin.zHeroChat) {
-                    HashMap<String, String> languages = new HashMap<String, String>();
-                    JavaPlugin plugin = (JavaPlugin) Config.Server.getPluginManager().getPlugin("HeroChat");
-                    HeroChat herochat = (HeroChat) plugin;
-                    ChannelManager channelManager = herochat.getChannelManager();
-                    Channel channel = channelManager.getActiveChannel(event.getPlayer().getName());
-                    List<String> players = channel.getPlayers();
-                    for (String theplayer : players) {
-                        for (Player player : Config.Server.getOnlinePlayers()) {
-                            if (player.getName().equals(theplayer)) {
-                                boolean isin2 = Util.PlayerDatabase("check", player, null, null);
-                                Language langto;
-                                if (isin2) {
-                                    langto = Util.GetPlayerLanguageHash(player);
-                                } else {
-                                    langto = Util.GetLanguage(player,"to");
-                                }
-                                String NewMessage = null;
-                                if (langfrom.equals(langto)) {
-                                    NewMessage = event.getMessage();
-                                    channel.sendMessage(event.getPlayer().getName(), NewMessage, channel.getMsgFormat(), players, true, true);
-                                } else {
-                                    NewMessage = Util.Translate(event.getMessage(), langfrom,langto);
-                                    channel.sendMessage(event.getPlayer().getName(), NewMessage, channel.getMsgFormat(), players, true, true);
-                                }
-                            }
-                        }
-                    }
-                } else { */
                 for (Player player : Variables.server.getOnlinePlayers()) {
                     boolean isin2 = Util.PlayerDatabase("check", player, null, null);
                     Language langto;

@@ -9,16 +9,12 @@ or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisc
 
 package com.craftfire.babelcraft.util.databases;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.avaje.ebean.validation.Length;
 import com.avaje.ebean.validation.NotNull;
 import com.craftfire.babelcraft.util.Variables;
 import com.craftfire.babelcraft.util.managers.LoggingManager;
@@ -63,6 +59,7 @@ public class EBean {
     private String playername;
     private String ip;
     private String language;
+    private String countrycode;
 
     public void setId(int id) {
         this.id = id;
@@ -102,6 +99,14 @@ public class EBean {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+    
+    public String getCountrycode() {
+        return countrycode;
+    }
+
+    public void setCountrycode(String countrycode) {
+        this.countrycode = countrycode;
     }
 
 }
