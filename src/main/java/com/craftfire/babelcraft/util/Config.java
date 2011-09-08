@@ -36,13 +36,13 @@ public class Config {
     ///////////////////////////////////////////
     //               plugin
     ///////////////////////////////////////////
-    public static boolean plugin_debugmode,plugin_usagestats;
+    public static boolean plugin_debugmode, plugin_usagestats;
 
     ///////////////////////////////////////////
     //               language
     ///////////////////////////////////////////
     public static String language_default;
-    public static boolean language_serverforced,language_playerset;
+    public static boolean language_serverforced, language_playerset;
 
     public static Configuration template = null;
 

@@ -20,19 +20,19 @@ public class Messages {
 
     public static void SendMessage(String type, Player player, PlayerLoginEvent event) {
         if (type.equals("message_default")) {
-            player.sendMessage(Util.replaceStrings(message_default, player,null));
+            player.sendMessage(Util.replaceStrings(message_default, player, null));
         } else if (type.equals("message_autodetect")) {
-            player.sendMessage(Util.replaceStrings(message_autodetect, player,null));
+            player.sendMessage(Util.replaceStrings(message_autodetect, player, null));
         } else if (type.equals("message_usage")) {
-            player.sendMessage(Util.replaceStrings(message_usage, player,null));
+            player.sendMessage(Util.replaceStrings(message_usage, player, null));
         } else if (type.equals("message_notsupported")) {
-            player.sendMessage(Util.replaceStrings(message_notsupported, player,null));
+            player.sendMessage(Util.replaceStrings(message_notsupported, player, null));
         } else if (type.equals("message_nottranslated")) {
-            player.sendMessage(Util.replaceStrings(message_nottranslated, player,null));
+            player.sendMessage(Util.replaceStrings(message_nottranslated, player, null));
         } else if (type.equals("message_savesuccess")) {
-            player.sendMessage(Util.replaceStrings(message_savesuccess, player,null));
+            player.sendMessage(Util.replaceStrings(message_savesuccess, player, null));
         } else if (type.equals("message_savefailure")) {
-            player.sendMessage(Util.replaceStrings(message_savefailure, player,null));
+            player.sendMessage(Util.replaceStrings(message_savefailure, player, null));
         }
     }
 }
