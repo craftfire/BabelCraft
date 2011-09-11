@@ -42,6 +42,7 @@ public class BabelCraftPlayerListener extends PlayerListener {
     }
 
     public void onPlayerJoin(PlayerJoinEvent event) {
+    	playerManager.checkIP(event.getPlayer().getName(), playerManager.getIP(event.getPlayer()));
         event.getPlayer().sendMessage(Variables.plugin_prefix + "Your current language is §c" + playerManager.getLanguageString(event.getPlayer()) + "§f.");
         event.getPlayer().sendMessage(TempPrefix + "To change this, use /lang <language>");
     }
