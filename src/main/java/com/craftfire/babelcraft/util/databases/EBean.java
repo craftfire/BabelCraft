@@ -17,7 +17,6 @@ import javax.persistence.Table;
 
 import com.avaje.ebean.validation.NotNull;
 import com.craftfire.babelcraft.util.Variables;
-import com.craftfire.babelcraft.util.managers.LoggingManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -26,29 +25,7 @@ import org.bukkit.entity.Player;
 @Table(name = "babelcraft_users")
 public class EBean {
 	
-	LoggingManager logging = new LoggingManager();
-
-    public static EBean checkPlayer(String player, boolean save) {
-        EBean eBeanClass = Variables.database.find(EBean.class).where().ieq("playername", player).findUnique();
-        if (eBeanClass == null) {
-            eBeanClass = new EBean();
-            eBeanClass.setPlayername(player);
-            if (save) { save(eBeanClass); }
-        }
-        return eBeanClass;
-    }
-
-    public static EBean checkPlayer(Player player, boolean save) {
-        EBean eBeanClass = Variables.database.find(EBean.class).where().ieq("playername", player.getName()).findUnique();
-        if (eBeanClass == null) {
-            eBeanClass = new EBean();
-            eBeanClass.setPlayer(player);
-            if (save) { save(eBeanClass); }
-        }
-        return eBeanClass;
-    }
-
-    public static void save(EBean eBeanClass) {
+    public void save(EBean eBeanClass) {
         Variables.database.save(eBeanClass);
     }
 

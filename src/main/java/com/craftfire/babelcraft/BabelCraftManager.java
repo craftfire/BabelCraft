@@ -14,56 +14,29 @@ public class BabelCraftManager {
 	TranslationManager translation = new TranslationManager();
 	PlayerManager playerManager = new PlayerManager();
 	
-    public String Translate(String message, Player player) {
+    public String translate(String message, Player player) {
         Language lang;
         if (Config.language_serverforced) {
             lang = Language.fromString(Config.language_default);
         } else {
-            boolean isin = util.PlayerDatabase("check", player, null, null);
-            if (isin) {
-                lang = translation.GetPlayerLanguageHash(player);
-            } else {
-                lang = translation.GetLanguage(player, "to");
-            }
+            lang = playerManager.getLanguage(player);
         }
-        return  translation.Translate(message, Language.AUTO_DETECT, lang);
+        return  translation.translate(message, Language.AUTO_DETECT, lang);
     }
     
     public String getLanguage(Player player) {
-        boolean isin = util.PlayerDatabase("check", player, null, null);
-        Language lang;
-        if (isin) {
-            lang = translation.GetPlayerLanguageHash(player);
-        } else {
-            lang = translation.GetLanguage(player, "from");
-        }
-        return util.LanguageName("" + lang).toLowerCase();
+        return playerManager.getLanguageString(player);
     }
 
     public String getLanguageCode(Player player) {
-        boolean isin = util.PlayerDatabase("check", player, null, null);
-        Language lang;
-        if (isin) {
-            lang = translation.GetPlayerLanguageHash(player);
-        } else {
-            lang = translation.GetLanguage(player, "from");
-        }
-        return util.LanguageCode("" + lang).toLowerCase();
+        return translation.languageCode(playerManager.getLanguageString(player));
     }
 
     public String getCountry(Player player) {
-        String CountryName = translation.GetCountryName(playerManager.getIP(player));
-        return  CountryName.toLowerCase();
+        return translation.getCountryName(playerManager.getIP(player));
     }
 
     public String getCountryCode(Player player) {
-        boolean isin = util.PlayerDatabase("check", player, null, null);
-        String CountryCode;
-        if (isin) {
-            CountryCode = translation.GetPlayerCountryHash(player);
-        } else {
-            CountryCode = translation.GetCountryCode(playerManager.getIP(player));
-        }
-        return  CountryCode.toLowerCase();
+        return playerManager.getCountryCode(player);
     }
 }

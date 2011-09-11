@@ -2,9 +2,6 @@ package com.craftfire.babelcraft.util.managers;
 
 import java.io.IOException;
 
-import org.bukkit.entity.Player;
-
-import com.craftfire.babelcraft.util.Config;
 import com.craftfire.babelcraft.util.Util;
 import com.craftfire.babelcraft.util.Variables;
 import com.google.api.translate.Language;
@@ -16,18 +13,6 @@ public class TranslationManager {
 	LoggingManager logging = new LoggingManager();
 	PlayerManager playerManager = new PlayerManager();
 	Util util = new Util();
-	
-    public Language getPlayerLanguageHash(Player player) {
-        String TheLanguage = Config.playerdatabase.get(player.getName().toLowerCase());
-        String[] Split = TheLanguage.split(":");
-        return Language.fromString(Split[0]);
-    }
-
-    public String getPlayerCountryHash(Player player) {
-        String TheCountry = Config.playerdatabase.get(player.getName().toLowerCase());
-        String[] Split = TheCountry.split(":");
-        return Split[1];
-    }
     
     public String translate(String message, Language langfrom, Language langto) {
     	logging.debug("FROM: " + langfrom);
@@ -37,8 +22,7 @@ public class TranslationManager {
         try {
             translated = Translate.execute(message, langfrom, langto);
         } catch (Exception e) {
-            // TODO: Auto-generated catch block
-            e.printStackTrace();
+        	logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
         }
         return translated;
     }
@@ -54,9 +38,9 @@ public class TranslationManager {
     public String languageName(String lang) {
         for (Language l : Language.values()) {
             if (lang.toLowerCase().equals(l.toString().toLowerCase())) {
-                return util.Capitalize(l.name().toLowerCase());
+                return util.capitalize(l.name().toLowerCase());
             } else if (lang.toLowerCase().equals(l.name().toLowerCase())) {
-                return util.Capitalize(l.name().toLowerCase());
+                return util.capitalize(l.name().toLowerCase());
             }
         }
         return lang;
@@ -64,30 +48,10 @@ public class TranslationManager {
 
     public String languageCode(String lang) {
         for (Language l : Language.values()) {
-            if (lang.toLowerCase().equals(l.toString().toLowerCase())) {
-                return util.Capitalize(l.toString().toLowerCase());
-            } else if (lang.toLowerCase().equals(l.name().toLowerCase())) {
-                return util.Capitalize(l.toString().toLowerCase());
-            }
-        }
-        return lang;
-    }
-
-    public Language getLanguage(Player player, String action) {
-        String LanguageCode = playerManager.getLanguage(player);
-        String CountryCode = getCountryCode(playerManager.getIP(player));
-        if (CountryCode.equals("--")) {
-            CountryCode = "localhost";
-        }
-        Util.playerDatabase("add", player, LanguageCode, CountryCode);
-        Language lang = Language.fromString(LanguageCode);
-        if (lang != null) {
-            return lang;
-        } else {
-            if (action.equals("to")) {
-                lang = Language.ENGLISH;
-            } else if (action.equals("from")) {
-                lang = Language.AUTO_DETECT;
+            if (lang.equalsIgnoreCase(l.toString())) {
+                return util.capitalize(l.toString().toLowerCase());
+            } else if (lang.equalsIgnoreCase(l.name())) {
+                return util.capitalize(l.toString().toLowerCase());
             }
         }
         return lang;
@@ -98,8 +62,7 @@ public class TranslationManager {
         try {
             cl = new LookupService(Variables.dbfile, LookupService.GEOIP_MEMORY_CACHE);
         } catch (IOException e) {
-            // TODO: Auto-generated catch block
-            e.printStackTrace();
+        	logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
         }
 
         String CountryCode = cl.getCountry(IP).getCode();
@@ -116,8 +79,7 @@ public class TranslationManager {
         try {
             cl = new LookupService(Variables.dbfile, LookupService.GEOIP_MEMORY_CACHE);
         } catch (IOException e) {
-            // TODO: Auto-generated catch block
-            e.printStackTrace();
+        	logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
         }
 
         String CountryName = cl.getCountry(IP).getName();

@@ -9,29 +9,11 @@ or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisc
 
 package com.craftfire.babelcraft.util;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.Scanner;
-import java.util.logging.Level;
 
 import org.bukkit.entity.Player;
 
 import com.craftfire.babelcraft.util.managers.PlayerManager;
-import com.google.api.translate.Language;
-import com.google.api.translate.Translate;
-import com.maxmind.geoip.LookupService;
 
 public class Util {
 	
@@ -79,7 +61,7 @@ public class Util {
         return r.toString();
     }
 
-    public String Capitalize(String string) {
+    public String capitalize(String string) {
         String result = "";
         Scanner scn = new Scanner(string);
         while (scn.hasNext()) {
@@ -108,44 +90,7 @@ public class Util {
         string = string.replaceAll("\\{PLUGIN\\}", Variables.pluginName);
         string = string.replaceAll("\\{VERSION\\}", Variables.pluginVersion);
         string = string.replaceAll("\\{COUNTRY\\}", "");
-        
-        string = string.replaceAll("&", "§");
 
-        /// COLORS
-        string = string.replaceAll("\\<BLACK\\>", "§0");
-        string = string.replaceAll("\\<NAVY\\>", "§1");
-        string = string.replaceAll("\\<GREEN\\>", "§2");
-        string = string.replaceAll("\\<BLUE\\>", "§3");
-        string = string.replaceAll("\\<RED\\>", "§4");
-        string = string.replaceAll("\\<PURPLE\\>", "§5");
-        string = string.replaceAll("\\<GOLD\\>", "§6");
-        string = string.replaceAll("\\<LIGHTGRAY\\>", "§7");
-        string = string.replaceAll("\\<GRAY\\>", "§8");
-        string = string.replaceAll("\\<DARKPURPLE\\>", "§9");
-        string = string.replaceAll("\\<LIGHTGREEN\\>", "§a");
-        string = string.replaceAll("\\<LIGHTBLUE\\>", "§b");
-        string = string.replaceAll("\\<ROSE\\>", "§c");
-        string = string.replaceAll("\\<LIGHTPURPLE\\>", "§d");
-        string = string.replaceAll("\\<YELLOW\\>", "§e");
-        string = string.replaceAll("\\<WHITE\\>", "§f");
-
-        /// colors
-        string = string.replaceAll("\\<black\\>", "§0");
-        string = string.replaceAll("\\<navy\\>", "§1");
-        string = string.replaceAll("\\<green\\>", "§2");
-        string = string.replaceAll("\\<blue\\>", "§3");
-        string = string.replaceAll("\\<red\\>", "§4");
-        string = string.replaceAll("\\<purple\\>", "§5");
-        string = string.replaceAll("\\<gold\\>", "§6");
-        string = string.replaceAll("\\<lightgray\\>", "§7");
-        string = string.replaceAll("\\<gray\\>", "§8");
-        string = string.replaceAll("\\<darkpurple\\>", "§9");
-        string = string.replaceAll("\\<lightgreen\\>", "§a");
-        string = string.replaceAll("\\<lightblue\\>", "§b");
-        string = string.replaceAll("\\<rose\\>", "§c");
-        string = string.replaceAll("\\<lightpurple\\>", "§d");
-        string = string.replaceAll("\\<yellow\\>", "§e");
-        string = string.replaceAll("\\<white\\>", "§f");
         return string;
     }
 }

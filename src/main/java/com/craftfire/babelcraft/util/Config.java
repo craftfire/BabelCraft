@@ -10,14 +10,8 @@ or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisc
 package com.craftfire.babelcraft.util;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.logging.Logger;
 
-import org.bukkit.Server;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.util.config.Configuration;
-
-import com.craftfire.babelcraft.BabelCraft;
 
 public class Config {
     

@@ -5,11 +5,13 @@ import org.bukkit.entity.Player;
 import com.craftfire.babelcraft.util.Config;
 import com.craftfire.babelcraft.util.Variables;
 import com.craftfire.babelcraft.util.databases.EBean;
+import com.google.api.translate.Language;
 
 public class PlayerManager {
 	LoggingManager logging = new LoggingManager();
 	TranslationManager translation = new TranslationManager();
 	PlayerManager playerManager = new PlayerManager();
+	
     public String getIP(Player player) {
         if(player.getAddress().getAddress().toString().substring(1) != null) {
         	return player.getAddress().getAddress().toString().substring(1);
@@ -18,7 +20,7 @@ public class PlayerManager {
     }
     
     public void checkIP(String player, String IP) {
-        EBean eBeanClass = EBean.checkPlayer(player, true);
+        EBean eBeanClass = checkPlayer(player, true);
         if (eBeanClass.getIp() == null || eBeanClass.getIp().equals(IP) == false) {
             logging.debug("IP in persistence is different than the player's IP, removing session and syncing IP's.");
             eBeanClass.setIp(IP);
@@ -26,13 +28,13 @@ public class PlayerManager {
         }
 	}
     
-    public String getLanguage(Player player) { return getLanguage(player.getName()); }
+    public String getLanguageString(Player player) { return getLanguageString(player.getName()); }
     
-    public String getLanguage(String player) {
+    public String getLanguageString(String player) {
     	if(Variables.player_languages.containsKey(player)) {
     		return translation.languageName(Variables.player_languages.get(player));
     	} else {
-	    	EBean eBeanClass = EBean.checkPlayer(player, true);
+	    	EBean eBeanClass = checkPlayer(player, true);
 	        String language = eBeanClass.getLanguage();
 	        if(language != null) {
 	        	return translation.languageName(language);
@@ -50,7 +52,7 @@ public class PlayerManager {
     	if(Variables.player_country_codes.containsKey(playerName)) {
     		return Variables.player_country_codes.get(playerName);
     	} else {
-	    	EBean eBeanClass = EBean.checkPlayer(player, true);
+	    	EBean eBeanClass = checkPlayer(player, true);
 	        String countryCode = eBeanClass.getCountrycode();
 	        if(countryCode != null) {
 	        	return countryCode;
@@ -62,4 +64,35 @@ public class PlayerManager {
     	Variables.player_country_codes.put(playerName, translation.getCountryCode(playerManager.getIP(player)));
         return translation.getCountryCode(playerManager.getIP(player));
     }
+    
+    public Language getLanguage(Player player) {
+    	return Language.fromString(getLanguageString(player));
+    }
+    
+    public EBean checkPlayer(String player, boolean save) {
+        EBean eBeanClass = Variables.database.find(EBean.class).where().ieq("playername", player).findUnique();
+        if (eBeanClass == null) {
+            eBeanClass = new EBean();
+            eBeanClass.setPlayername(player);
+            eBeanClass.setLanguage(translation.languageName(Config.language_default));
+            if (save) { save(eBeanClass); }
+        }
+        return eBeanClass;
+    }
+
+    public EBean checkPlayer(Player player, boolean save) {
+        EBean eBeanClass = Variables.database.find(EBean.class).where().ieq("playername", player.getName()).findUnique();
+        if (eBeanClass == null) {
+            eBeanClass = new EBean();
+            eBeanClass.setPlayer(player);
+            eBeanClass.setLanguage(translation.languageName(Config.language_default));
+            if (save) { save(eBeanClass); }
+        }
+        return eBeanClass;
+    }
+    
+    public void save(EBean eBeanClass) {
+        Variables.database.save(eBeanClass);
+    }
+    
 }

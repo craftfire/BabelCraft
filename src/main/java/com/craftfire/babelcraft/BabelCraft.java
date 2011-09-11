@@ -28,7 +28,6 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.avaje.ebean.EbeanServer;
 import com.craftfire.babelcraft.listeners.BabelCraftPlayerListener;
 import com.craftfire.babelcraft.listeners.BabelCraftServerListener;
 import com.craftfire.babelcraft.util.Config;
