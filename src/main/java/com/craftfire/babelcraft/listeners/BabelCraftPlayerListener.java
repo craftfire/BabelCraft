@@ -123,17 +123,17 @@ public class BabelCraftPlayerListener extends PlayerListener {
             String NewMessage = translation.translate(event.getMessage(), langfrom, langto);
             event.setMessage(NewMessage);
         } else if (Config.language_playerset) {
+        	event.setCancelled(true);
             int tempcounter = 0;
-            for (Player player : Variables.server.getOnlinePlayers()) {
+            for (Player player : event.getRecipients()) {
                 Language langto = playerManager.getLanguage(player);
                 String NewMessage = null;
                 if (langfrom.equals(langto)) {
                     NewMessage = event.getMessage();
-                    player.sendMessage(event.getPlayer().getName() + ": " + NewMessage);
                 } else {
                     NewMessage = translation.translate(event.getMessage(), langfrom, langto);
-                    player.sendMessage(event.getPlayer().getName() + ": " + NewMessage);
                 }
+                player.sendMessage(event.getFormat().replace("+babelcraftmessage", NewMessage));
                 if (tempcounter == 0) {
                 	logging.info(event.getPlayer().getName() + ": " + NewMessage);
                     tempcounter++;
