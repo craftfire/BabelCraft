@@ -5,7 +5,7 @@ authors: [CraftFire, Contex, Wulfspider]
 website: http://www.craftfire.com
 
 main: com.craftfire.babelcraft.BabelCraft
-#databbase: true
+database: true
 #softdepend: [Spout]
 
 commands:

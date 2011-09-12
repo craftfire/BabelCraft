@@ -21,7 +21,7 @@ public class PlayerManager {
     public void checkIP(String player, String IP) {
         EBean eBeanClass = checkPlayer(player, true);
         if (eBeanClass.getIp() == null || eBeanClass.getIp().equals(IP) == false) {
-            Variables.logging.debug("IP in persistence is different than the player's IP, removing session and syncing IP's.");
+            Managers.logging.debug("IP in persistence is different than the player's IP, removing session and syncing IP's.");
             eBeanClass.setIp(IP);
             Variables.database.save(eBeanClass);
         }
@@ -31,19 +31,19 @@ public class PlayerManager {
     
     public String getLanguageString(String player) {
     	if(Variables.player_languages.containsKey(player)) {
-    		return Variables.translation.languageName(Variables.player_languages.get(player));
+    		return Managers.translation.languageName(Variables.player_languages.get(player));
     	} else {
 	    	EBean eBeanClass = checkPlayer(player, true);
 	        String language = eBeanClass.getLanguage();
 	        if(language != null) {
-	        	return Variables.translation.languageName(language);
+	        	return Managers.translation.languageName(language);
 	        } else {
-	        	eBeanClass.setLanguage(Variables.translation.languageName(Config.language_default));
+	        	eBeanClass.setLanguage(Managers.translation.languageName(Config.language_default));
 	        	Variables.database.save(eBeanClass);
 	        }
     	}
-    	Variables.player_languages.put(player, Variables.translation.languageName(Config.language_default));
-        return Variables.translation.languageName(Config.language_default);
+    	Variables.player_languages.put(player, Managers.translation.languageName(Config.language_default));
+        return Managers.translation.languageName(Config.language_default);
     }
     
     public String getCountryCode(Player player) {
@@ -56,12 +56,12 @@ public class PlayerManager {
 	        if(countryCode != null) {
 	        	return countryCode;
 	        } else {
-	        	eBeanClass.setCountrycode(Variables.translation.getCountryCode(Variables.playerManager.getIP(player)));
+	        	eBeanClass.setCountrycode(Managers.translation.getCountryCode(Managers.player.getIP(player)));
 	        	Variables.database.save(eBeanClass);
 	        }
     	}
-    	Variables.player_country_codes.put(playerName, Variables.translation.getCountryCode(Variables.playerManager.getIP(player)));
-        return Variables.translation.getCountryCode(Variables.playerManager.getIP(player));
+    	Variables.player_country_codes.put(playerName, Managers.translation.getCountryCode(Managers.player.getIP(player)));
+        return Managers.translation.getCountryCode(Managers.player.getIP(player));
     }
     
     public Language getLanguage(Player player) {
@@ -73,7 +73,7 @@ public class PlayerManager {
         if (eBeanClass == null) {
             eBeanClass = new EBean();
             eBeanClass.setPlayername(player);
-            eBeanClass.setLanguage(Variables.translation.languageName(Config.language_default));
+            eBeanClass.setLanguage(Managers.translation.languageName(Config.language_default));
             if (save) { save(eBeanClass); }
         }
         return eBeanClass;
@@ -84,7 +84,7 @@ public class PlayerManager {
         if (eBeanClass == null) {
             eBeanClass = new EBean();
             eBeanClass.setPlayer(player);
-            eBeanClass.setLanguage(Variables.translation.languageName(Config.language_default));
+            eBeanClass.setLanguage(Managers.translation.languageName(Config.language_default));
             if (save) { save(eBeanClass); }
         }
         return eBeanClass;

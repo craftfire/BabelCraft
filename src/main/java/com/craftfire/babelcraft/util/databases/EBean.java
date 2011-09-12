@@ -22,7 +22,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 @Entity()
-@Table(name = "babelcraft_users")
+@Table(name = "babelcraft")
 public class EBean {
 	
     public void save(EBean eBeanClass) {

@@ -156,26 +156,27 @@
             </resource>
             <resource>
                 <targetPath>files/config</targetPath>
-                <filtering>false</filtering>
+                <filtering>true</filtering>
                 <directory>${basedir}/src/main/resources/config</directory>
                 <includes>
-                    <include>config.yml</include>
+                    <include>*</include>
                 </includes>
             </resource>
             <resource>
-                <targetPath>files/translations/messages</targetPath>
+                <targetPath>files/data</targetPath>
                 <filtering>false</filtering>
-                <directory>${basedir}/src/main/resources/translations/messages</directory>
+                <directory>${basedir}/src/main/resources/data</directory>
                 <includes>
-                    <include>*.yml</include>
+                    <include>*</include>
                 </includes>
             </resource>
             <resource>
-                <targetPath>files/translations/commands</targetPath>
+                <targetPath>files/translations</targetPath>
                 <filtering>false</filtering>
-                <directory>${basedir}/src/main/resources/translations/commands</directory>
+                <directory>${basedir}/src/main/resources/translations</directory>
                 <includes>
-                    <include>*.yml</include>
+                    <include>*</include>
+                    <include>**/*</include>
                 </includes>
             </resource>
         </resources>
