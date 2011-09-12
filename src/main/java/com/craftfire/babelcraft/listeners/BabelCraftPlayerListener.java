@@ -20,20 +20,16 @@ import com.craftfire.babelcraft.util.Config;
 import com.craftfire.babelcraft.util.Util;
 import com.craftfire.babelcraft.util.Variables;
 import com.craftfire.babelcraft.util.databases.EBean;
-import com.craftfire.babelcraft.util.managers.LoggingManager;
-import com.craftfire.babelcraft.util.managers.PlayerManager;
-import com.craftfire.babelcraft.util.managers.TranslationManager;
 
 import com.google.api.translate.Language;
 
 public class BabelCraftPlayerListener extends PlayerListener {
-	TranslationManager translation = new TranslationManager();
-	PlayerManager playerManager = new PlayerManager();
 	Util util = new Util();
-	LoggingManager logging = new LoggingManager();
     String TempPrefix;
+	private final BabelCraft plugin;
     
     public BabelCraftPlayerListener(BabelCraft instance) {
+    	this.plugin = instance;
         if (Variables.plugintag) {
             TempPrefix = Variables.plugin_prefix;
         } else {
@@ -42,8 +38,8 @@ public class BabelCraftPlayerListener extends PlayerListener {
     }
 
     public void onPlayerJoin(PlayerJoinEvent event) {
-    	playerManager.checkIP(event.getPlayer().getName(), playerManager.getIP(event.getPlayer()));
-        event.getPlayer().sendMessage(Variables.plugin_prefix + "Your current language is §c" + playerManager.getLanguageString(event.getPlayer()) + "§f.");
+    	Variables.playerManager.checkIP(event.getPlayer().getName(), Variables.playerManager.getIP(event.getPlayer()));
+        event.getPlayer().sendMessage(Variables.plugin_prefix + "Your current language is §c" + Variables.playerManager.getLanguageString(event.getPlayer()) + "§f.");
         event.getPlayer().sendMessage(TempPrefix + "To change this, use /lang <language>");
     }
 
@@ -94,12 +90,12 @@ public class BabelCraftPlayerListener extends PlayerListener {
                     } else {
                         player.sendMessage(Variables.plugin_prefix + "Correct usage is: /lang search <String>");
                     }
-                } else if (translation.isLanguageSupported(parameter1)) {
-                		EBean eBeanClass = playerManager.checkPlayer(event.getPlayer(), true);
-                		eBeanClass.setLanguage(translation.languageName(parameter1));
+                } else if (Variables.translation.isLanguageSupported(parameter1)) {
+                		EBean eBeanClass = Variables.playerManager.checkPlayer(event.getPlayer(), true);
+                		eBeanClass.setLanguage(Variables.translation.languageName(parameter1));
                 		eBeanClass.save(eBeanClass);
                         player.sendMessage(Variables.plugin_prefix + "Successfully changed your chat language to");
-                        player.sendMessage(TempPrefix + "§c" + translation.languageName(parameter1) + "§f!");
+                        player.sendMessage(TempPrefix + "§c" + Variables.translation.languageName(parameter1) + "§f!");
                     }
                 } else {
                     player.sendMessage(Variables.plugin_prefix + "Unsupported language!");
@@ -107,7 +103,7 @@ public class BabelCraftPlayerListener extends PlayerListener {
                     player.sendMessage(TempPrefix + "Or search with /lang search <string>");
                 }
             } else {
-                String lang = playerManager.getLanguageString(event.getPlayer());
+                String lang = Variables.playerManager.getLanguageString(event.getPlayer());
                 player.sendMessage(Variables.plugin_prefix + "Your current language is §c" + lang + "§f.");
                 player.sendMessage(TempPrefix + "To change this, use /lang <language>");
                 player.sendMessage(TempPrefix + "To list the languages, use /lang <pagenumber>");
@@ -118,31 +114,26 @@ public class BabelCraftPlayerListener extends PlayerListener {
     
     public void onPlayerChat(PlayerChatEvent event) {
         if (event.isCancelled()) { return; }
-        Language langfrom = playerManager.getLanguage(event.getPlayer());
+        Language langfrom = Variables.playerManager.getLanguage(event.getPlayer());
         if (Config.language_serverforced) {
             Language langto = Language.fromString(Config.language_default.toLowerCase());
-            String NewMessage = translation.translate(event.getMessage(), langfrom, langto);
+            String NewMessage = Variables.translation.translate(event.getMessage(), langfrom, langto);
             event.setMessage(NewMessage);
         } else if (Config.language_playerset) {
             int tempcounter = 0;
-            for (Player player : Variables.server.getOnlinePlayers()) {
-                Language langto = playerManager.getLanguage(player);
-                String NewMessage = null;
+            for (Player player : event.getRecipients()) {
+                Language langto = Variables.playerManager.getLanguage(player);
+                String newMessage = null;
                 if (langfrom.equals(langto)) {
-                    NewMessage = event.getMessage();
-                    player.sendMessage(event.getPlayer().getName() + ": " + NewMessage);
+                    newMessage = event.getMessage();
                 } else {
-                    NewMessage = translation.translate(event.getMessage(), langfrom, langto);
-                    player.sendMessage(event.getPlayer().getName() + ": " + NewMessage);
+                    newMessage = Variables.translation.translate(event.getMessage(), langfrom, langto);
                 }
+                player.sendMessage(event.getFormat().replace("+babelcraftmessage", newMessage));
                 if (tempcounter == 0) {
-                	logging.info(event.getPlayer().getName() + ": " + NewMessage);
+                	Variables.logging.info(event.getPlayer().getName() + ": " + newMessage);
                     tempcounter++;
                 }
-                /* if (counter == 0 && NewMessage.equals(event.getMessage()) && player != event.getPlayer()) {
-                    event.getPlayer().sendMessage(Config.plugin_prefix+"The message below could not be translated.");
-                    counter++;
-                } */
             }
         }
     }

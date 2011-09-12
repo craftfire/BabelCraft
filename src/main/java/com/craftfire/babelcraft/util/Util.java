@@ -13,12 +13,8 @@ import java.util.Scanner;
 
 import org.bukkit.entity.Player;
 
-import com.craftfire.babelcraft.util.managers.PlayerManager;
-
 public class Util {
 	
-	PlayerManager playerManager = new PlayerManager();
-
     int hexToInt(char ch) {
         if (ch >= '0' && ch <= '9') {
             return ch - '0';
@@ -84,7 +80,7 @@ public class Util {
     }
     
     public String replaceStrings(String string, Player player, String additional) {
-        string = string.replaceAll("\\{IP\\}", playerManager.getIP(player));
+        string = string.replaceAll("\\{IP\\}", Variables.playerManager.getIP(player));
         string = string.replaceAll("\\{PLAYER\\}", player.getName());
         string = string.replaceAll("\\{NEWPLAYER\\}", "");
         string = string.replaceAll("\\{PLUGIN\\}", Variables.pluginName);

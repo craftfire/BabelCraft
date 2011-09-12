@@ -6,6 +6,9 @@ import org.bukkit.Server;
 
 import com.avaje.ebean.EbeanServer;
 import com.craftfire.babelcraft.BabelCraft;
+import com.craftfire.babelcraft.util.managers.LoggingManager;
+import com.craftfire.babelcraft.util.managers.PlayerManager;
+import com.craftfire.babelcraft.util.managers.TranslationManager;
 
 public class Variables {
     public static HashMap<String, String> player_languages = new HashMap<String, String>();
@@ -18,4 +21,7 @@ public class Variables {
     public static BabelCraft plugin;
 	public static EbeanServer database;
     public static String dbfile = plugin.getDataFolder() + "/data/GeoIP.dat";
+	public static PlayerManager playerManager = new PlayerManager();
+	public static LoggingManager logging = new LoggingManager();
+	public static TranslationManager translation = new TranslationManager();
 }

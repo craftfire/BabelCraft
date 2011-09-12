@@ -3,14 +3,13 @@ package com.craftfire.babelcraft.util.managers;
 import org.bukkit.entity.Player;
 
 import com.craftfire.babelcraft.util.Config;
+import com.craftfire.babelcraft.util.Util;
 import com.craftfire.babelcraft.util.Variables;
 import com.craftfire.babelcraft.util.databases.EBean;
 import com.google.api.translate.Language;
 
 public class PlayerManager {
-	LoggingManager logging = new LoggingManager();
-	TranslationManager translation = new TranslationManager();
-	PlayerManager playerManager = new PlayerManager();
+	Util util = new Util();
 	
     public String getIP(Player player) {
         if(player.getAddress().getAddress().toString().substring(1) != null) {
@@ -22,7 +21,7 @@ public class PlayerManager {
     public void checkIP(String player, String IP) {
         EBean eBeanClass = checkPlayer(player, true);
         if (eBeanClass.getIp() == null || eBeanClass.getIp().equals(IP) == false) {
-            logging.debug("IP in persistence is different than the player's IP, removing session and syncing IP's.");
+            Variables.logging.debug("IP in persistence is different than the player's IP, removing session and syncing IP's.");
             eBeanClass.setIp(IP);
             Variables.database.save(eBeanClass);
         }
@@ -32,19 +31,19 @@ public class PlayerManager {
     
     public String getLanguageString(String player) {
     	if(Variables.player_languages.containsKey(player)) {
-    		return translation.languageName(Variables.player_languages.get(player));
+    		return Variables.translation.languageName(Variables.player_languages.get(player));
     	} else {
 	    	EBean eBeanClass = checkPlayer(player, true);
 	        String language = eBeanClass.getLanguage();
 	        if(language != null) {
-	        	return translation.languageName(language);
+	        	return Variables.translation.languageName(language);
 	        } else {
-	        	eBeanClass.setLanguage(translation.languageName(Config.language_default));
+	        	eBeanClass.setLanguage(Variables.translation.languageName(Config.language_default));
 	        	Variables.database.save(eBeanClass);
 	        }
     	}
-    	Variables.player_languages.put(player, translation.languageName(Config.language_default));
-        return translation.languageName(Config.language_default);
+    	Variables.player_languages.put(player, Variables.translation.languageName(Config.language_default));
+        return Variables.translation.languageName(Config.language_default);
     }
     
     public String getCountryCode(Player player) {
@@ -57,12 +56,12 @@ public class PlayerManager {
 	        if(countryCode != null) {
 	        	return countryCode;
 	        } else {
-	        	eBeanClass.setCountrycode(translation.getCountryCode(playerManager.getIP(player)));
+	        	eBeanClass.setCountrycode(Variables.translation.getCountryCode(Variables.playerManager.getIP(player)));
 	        	Variables.database.save(eBeanClass);
 	        }
     	}
-    	Variables.player_country_codes.put(playerName, translation.getCountryCode(playerManager.getIP(player)));
-        return translation.getCountryCode(playerManager.getIP(player));
+    	Variables.player_country_codes.put(playerName, Variables.translation.getCountryCode(Variables.playerManager.getIP(player)));
+        return Variables.translation.getCountryCode(Variables.playerManager.getIP(player));
     }
     
     public Language getLanguage(Player player) {
@@ -74,7 +73,7 @@ public class PlayerManager {
         if (eBeanClass == null) {
             eBeanClass = new EBean();
             eBeanClass.setPlayername(player);
-            eBeanClass.setLanguage(translation.languageName(Config.language_default));
+            eBeanClass.setLanguage(Variables.translation.languageName(Config.language_default));
             if (save) { save(eBeanClass); }
         }
         return eBeanClass;
@@ -85,7 +84,7 @@ public class PlayerManager {
         if (eBeanClass == null) {
             eBeanClass = new EBean();
             eBeanClass.setPlayer(player);
-            eBeanClass.setLanguage(translation.languageName(Config.language_default));
+            eBeanClass.setLanguage(Variables.translation.languageName(Config.language_default));
             if (save) { save(eBeanClass); }
         }
         return eBeanClass;

@@ -29,20 +29,14 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.craftfire.babelcraft.listeners.BabelCraftPlayerListener;
-import com.craftfire.babelcraft.listeners.BabelCraftServerListener;
 import com.craftfire.babelcraft.util.Config;
-import com.craftfire.babelcraft.util.Util;
 import com.craftfire.babelcraft.util.Variables;
 import com.craftfire.babelcraft.util.databases.EBean;
 import com.craftfire.babelcraft.util.managers.CraftFireManager;
-import com.craftfire.babelcraft.util.managers.LoggingManager;
 
 public class BabelCraft extends JavaPlugin {
     private final BabelCraftPlayerListener playerListener = new BabelCraftPlayerListener(this);
-    private final BabelCraftServerListener serverListener = new BabelCraftServerListener(this);
     public Logger log = Logger.getLogger("Minecraft");
-    Util util = new Util();
-    LoggingManager logging = new LoggingManager();
     CraftFireManager craftFire = new CraftFireManager();
     PluginDescriptionFile pluginFile = getDescription();
 
@@ -78,7 +72,7 @@ public class BabelCraft extends JavaPlugin {
             try {
             	craftFire.postInfo(getServer().getName(), getServer().getVersion(), Variables.pluginVersion, System.getProperty("os.name"), System.getProperty("os.version"), System.getProperty("os.arch"), System.getProperty("java.version"), "", "", Plugins, online, max, Variables.server.getPort());
             } catch (IOException e1) {
-                logging.debug("Could not send data to main server.");
+            	Variables.logging.debug("Could not send data to main server.");
             }
         }
 
@@ -86,7 +80,7 @@ public class BabelCraft extends JavaPlugin {
         String configFile = "config";
         File f = new File(getDataFolder() + "/config/" + fileName);
         if (!f.exists()) {
-            logging.info(fileName + " could not be found in " + getDataFolder() + "/config/! Creating " + fileName + "!");
+        	Variables.logging.info(fileName + " could not be found in " + getDataFolder() + "/config/! Creating " + fileName + "!");
             defaultFile(fileName, "config");
         }
         new Config(configFile, getDataFolder() + "/config/", fileName);
@@ -97,20 +91,19 @@ public class BabelCraft extends JavaPlugin {
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvent(Event.Type.PLAYER_JOIN, this.playerListener, Event.Priority.Low, this);
-        pm.registerEvent(Event.Type.PLAYER_CHAT, this.playerListener, Event.Priority.Lowest, this);
-        pm.registerEvent(Event.Type.PLUGIN_ENABLE, this.serverListener, Event.Priority.Low, this);
+        pm.registerEvent(Event.Type.PLAYER_CHAT, this.playerListener, Event.Priority.Highest, this);
         pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this.playerListener, Event.Priority.High, this);
 
-        logging.info(Variables.pluginVersion + " is enabled");
-        logging.debug("Debug is ENABLED, get ready for some heavy spam");
-        logging.info("developed by CraftFire <dev@craftfire.com>");
+        Variables.logging.info(Variables.pluginVersion + " is enabled");
+        Variables.logging.debug("Debug is ENABLED, get ready for some heavy spam");
+        Variables.logging.info("developed by CraftFire <dev@craftfire.com>");
     }
     
     private void setupDatabase() {
         try {
             getDatabase().find(EBean.class).findRowCount();
         } catch (PersistenceException ex) {
-            logging.info("Installing persistence database for " + Variables.pluginName + " due to first time usage");
+        	Variables.logging.info("Installing persistence database for " + Variables.pluginName + " due to first time usage");
             installDDL();
         }
     }
@@ -127,7 +120,7 @@ public class BabelCraft extends JavaPlugin {
         File direc = new File(getDataFolder() + "/" + folder + "/", "");
         if (!direc.exists()) {
             if (direc.mkdir()) {
-                logging.debug("Sucesfully created directory: "+direc);
+            	Variables.logging.debug("Sucesfully created directory: "+direc);
             }
         }
         if (!actual.exists()) {
@@ -145,21 +138,21 @@ public class BabelCraft extends JavaPlugin {
 
               System.out.println("[" + Variables.pluginName + "] Written default setup for " + name);
             } catch (Exception e) {
-              logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
+            	Variables.logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
             } finally {
               try {
                 if (input != null) {
                     input.close();
                 }
               } catch (Exception e) {
-                  logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
+            	  Variables.logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
               }
               try {
                 if (output != null) {
                   output.close();
                 }
               } catch (Exception e) {
-                  logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
+            	  Variables.logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
               }
             }
           }
@@ -171,7 +164,7 @@ public class BabelCraft extends JavaPlugin {
         File languagesAll = new File(getDataFolder() + "/translations");
         if(!languagesAll.exists()) {
             if (languagesAll.mkdir()) {
-                logging.debug("Sucesfully created directory: " + languagesAll);
+            	Variables.logging.debug("Sucesfully created directory: " + languagesAll);
             }
         }
         boolean set = false;
@@ -194,10 +187,10 @@ public class BabelCraft extends JavaPlugin {
                         directory = directory.replace("files/translations/", "");
                         directory = directory.replace("/", "");
                         if (directory.equals("") == false) {
-                            logging.debug("Directory: "+directory);
+                        	Variables.logging.debug("Directory: "+directory);
                             File f = new File(getDataFolder() + "/translations/" + directory + "/" + type + ".yml");
                             if (!f.exists()) {
-                                logging.info(type + ".yml" + " could not be found in plugins/" + Variables.pluginName + "/translations/" + directory + "/! Creating " + type + ".yml");
+                            	Variables.logging.info(type + ".yml" + " could not be found in plugins/" + Variables.pluginName + "/translations/" + directory + "/! Creating " + type + ".yml");
                                 defaultFile(type + ".yml","translations/" + directory + "");
                             }
                             if (type.equals("commands") && (Config.plugin_language_commands).equalsIgnoreCase(directory))  {
@@ -212,13 +205,13 @@ public class BabelCraft extends JavaPlugin {
                 }
                 zip.close();
             } catch (IOException e) {
-                logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
+            	Variables.logging.stackTrace(e.getStackTrace(), Thread.currentThread().getStackTrace()[1].getMethodName(), Thread.currentThread().getStackTrace()[1].getLineNumber(), Thread.currentThread().getStackTrace()[1].getClassName(), Thread.currentThread().getStackTrace()[1].getFileName());
             }
         }
 
         directories = languagesAll.listFiles(fileFilter);
-        if (directories.length > 0) { logging.debug("Found " + directories.length + " directories for " + type); }
-        else { logging.error("Error! Could not find any directories for " + type); }
+        if (directories.length > 0) { Variables.logging.debug("Found " + directories.length + " directories for " + type); }
+        else { Variables.logging.error("Error! Could not find any directories for " + type); }
         if (!set) {
             for (int z=0; z<directories.length; z++) {
                 if (type.equalsIgnoreCase("commands") && Config.plugin_language_commands.equalsIgnoreCase(directories[z].getName()))  {
@@ -230,10 +223,10 @@ public class BabelCraft extends JavaPlugin {
                 }
             }
         }
-        if (!set && type.equalsIgnoreCase("commands")) { logging.info("Could not find translation files for " + Config.plugin_language_commands + ", defaulting to " + language); }
-        else if (!set && type.equalsIgnoreCase("messages")) { logging.info("Could not find translation files for " + Config.plugin_language_messages + ", defaulting to " + language); }
-        else if (type.equalsIgnoreCase("commands")) { logging.info(type + " language set to " + Config.plugin_language_commands); }
-        else if (type.equalsIgnoreCase("messages")) { logging.info(type + " language set to " + Config.plugin_language_messages); }
+        if (!set && type.equalsIgnoreCase("commands")) { Variables.logging.info("Could not find translation files for " + Config.plugin_language_commands + ", defaulting to " + language); }
+        else if (!set && type.equalsIgnoreCase("messages")) { Variables.logging.info("Could not find translation files for " + Config.plugin_language_messages + ", defaulting to " + language); }
+        else if (type.equalsIgnoreCase("commands")) { Variables.logging.info(type + " language set to " + Config.plugin_language_commands); }
+        else if (type.equalsIgnoreCase("messages")) { Variables.logging.info(type + " language set to " + Config.plugin_language_messages); }
         new Config(type, getDataFolder() + "/translations/" + language + "/", type + ".yml");
     }
 }
