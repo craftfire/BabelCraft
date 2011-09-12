@@ -30,20 +30,32 @@ public class PlayerManager {
     public String getLanguageString(Player player) { return getLanguageString(player.getName()); }
     
     public String getLanguageString(String player) {
+    	Managers.logging.debug("Getting " + player +"'s language from storage.");
     	if(Variables.player_languages.containsKey(player)) {
+    		Managers.logging.debug("Found " + player +"'s language in hashmap with language: " 
+	    	+ Variables.player_languages.get(player) + " | " 
+	    	+ Managers.translation.languageName(Variables.player_languages.get(player)));
     		return Managers.translation.languageName(Variables.player_languages.get(player));
     	} else {
 	    	EBean eBeanClass = checkPlayer(player, true);
 	        String language = eBeanClass.getLanguage();
 	        if(language != null) {
+	        	Managers.logging.debug("Found " + player +"'s language in ebean with language: " 
+    	    	+ Managers.translation.languageName(language));
 	        	return Managers.translation.languageName(language);
 	        } else {
+	        	Managers.logging.debug("Could not find " + player +"'s language in storage, return default language: " 
+    	    	+ Managers.translation.languageName(language));
 	        	eBeanClass.setLanguage(Managers.translation.languageName(Config.language_default));
 	        	Variables.database.save(eBeanClass);
 	        }
     	}
     	Variables.player_languages.put(player, Managers.translation.languageName(Config.language_default));
         return Managers.translation.languageName(Config.language_default);
+    }
+    
+    public Language getLanguage(Player player) {
+    	return Managers.translation.fromString(getLanguageString(player));
     }
     
     public String getCountryCode(Player player) {
@@ -62,10 +74,6 @@ public class PlayerManager {
     	}
     	Variables.player_country_codes.put(playerName, Managers.translation.getCountryCode(Managers.player.getIP(player)));
         return Managers.translation.getCountryCode(Managers.player.getIP(player));
-    }
-    
-    public Language getLanguage(Player player) {
-    	return Language.fromString(getLanguageString(player));
     }
     
     public EBean checkPlayer(String player, boolean save) {

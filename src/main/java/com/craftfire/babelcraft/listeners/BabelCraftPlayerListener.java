@@ -39,6 +39,7 @@ public class BabelCraftPlayerListener extends PlayerListener {
     }
 
     public void onPlayerJoin(PlayerJoinEvent event) {
+    	Managers.player.checkPlayer(event.getPlayer(), true);
     	Managers.player.checkIP(event.getPlayer().getName(), Managers.player.getIP(event.getPlayer()));
         event.getPlayer().sendMessage(Variables.plugin_prefix + "Your current language is §c" + Managers.player.getLanguageString(event.getPlayer()) + "§f.");
         event.getPlayer().sendMessage(TempPrefix + "To change this, use /lang <language>");
@@ -118,24 +119,37 @@ public class BabelCraftPlayerListener extends PlayerListener {
         Language langfrom = Managers.player.getLanguage(event.getPlayer());
         if (Config.language_serverforced) {
             Language langto = Language.fromString(Config.language_default.toLowerCase());
+            Managers.logging.debug("Translating from language: " + langfrom.toString());
+            Managers.logging.debug("Translating to language: " + langto.toString());
             String NewMessage = Managers.translation.translate(event.getMessage(), langfrom, langto);
             event.setMessage(NewMessage);
+            event.setCancelled(true);
         } else if (Config.language_playerset) {
             int tempcounter = 0;
             for (Player player : event.getRecipients()) {
                 Language langto = Managers.player.getLanguage(player);
+                Managers.logging.debug("Translating from language: " + langfrom.toString());
+                Managers.logging.debug("Translating to language: " + langto.toString());
                 String newMessage = null;
-                if (langfrom.equals(langto)) {
+                if (langfrom.toString().equalsIgnoreCase(langto.toString())) {
+                	Managers.logging.debug(event.getPlayer().getDisplayName() + "'s language is the same as " + player.getDisplayName() + "'s language, no need to translate.");
                     newMessage = event.getMessage();
                 } else {
+                	Managers.logging.debug(event.getPlayer().getDisplayName() + "'s language is NOT the same as " + player.getDisplayName() + "'s language, translating.");
                     newMessage = Managers.translation.translate(event.getMessage(), langfrom, langto);
                 }
-                player.sendMessage(event.getFormat().replace("+babelcraftmessage", newMessage));
+                String format = event.getFormat();
+                Managers.logging.debug("Message format: " + format);
+                format = format.replace(event.getMessage(), newMessage);
+                format = format.replace("%1$s", event.getPlayer().getDisplayName());
+                format = format.replace("%2$s", newMessage);
+                player.sendMessage(format);
                 if (tempcounter == 0) {
                 	Managers.logging.info(event.getPlayer().getName() + ": " + newMessage);
                     tempcounter++;
                 }
             }
+            event.setCancelled(true);
         }
     }
 }

@@ -37,13 +37,24 @@ public class TranslationManager {
 
     public String languageName(String lang) {
         for (Language l : Language.values()) {
-            if (lang.toLowerCase().equals(l.toString().toLowerCase())) {
+            if (lang.toLowerCase().equalsIgnoreCase(l.toString().toLowerCase())) {
                 return util.capitalize(l.name().toLowerCase());
-            } else if (lang.toLowerCase().equals(l.name().toLowerCase())) {
+            } else if (lang.toLowerCase().equalsIgnoreCase(l.name().toLowerCase())) {
                 return util.capitalize(l.name().toLowerCase());
             }
         }
         return lang;
+    }
+    
+    public Language fromString(String lang) {
+        for (Language l : Language.values()) {
+            if (lang.toLowerCase().equalsIgnoreCase(l.toString().toLowerCase())) {
+                return l;
+            } else if (lang.toLowerCase().equalsIgnoreCase(l.name().toLowerCase())) {
+            	return l;
+            }
+        }
+        return null;
     }
 
     public String languageCode(String lang) {

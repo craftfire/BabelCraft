@@ -1,22 +1,21 @@
 plugin:
-  language: en                                     # Remove for config option under language: node
-#  language:
-#    commands: English                              # Language you want to use for commands that matches a directory under translations.
-#    messages: English                              # Language you want to use for messages that matches a directory under translations.
+  language:
+    commands: English                              # Language you want to use for commands that matches a directory under translations.
+    messages: English                              # Language you want to use for messages that matches a directory under translations.
   debugmode: false                                 # Enable/disable debugging mode and additional console output.
   usagestats: true                                 # Enable/disable usage stats reporting to CraftFire devs.
-#  logging: true                                    # Enable/disable logging to files.
-#  logformat: yyyy-MM-dd                            # Filename format of the AuthDB debug and error log files.
+  logging: true                                    # Enable/disable logging to files.
+  logformat: yyyy-MM-dd                            # Filename format of the AuthDB debug and error log files.
 language:
-  default: English
-  serverforced: false
-  playerset: true
+  default: English                                 # 
+  serverforced: false                              # 
+  playerset: true                                  # 
 #translate:
-#  internal: true
-#  manual: true
+#  internal: true                                   # 
+#  manual: true                                     # 
 #welcome:
-#  delay: 2 seconds
-#  show: 10 seconds
+#  delay: 2 seconds                                 # 
+#  show: 10 seconds                                 # 
 #geoip:
-#  enabled: true
-#  autoupdate: true
+#  enabled: true                                    # 
+#  autoupdate: true                                 # 
