@@ -63,5 +63,5 @@ Follow the above conventions if you want your pull requests accepted.
 [Twitter Button]: http://cdn.getspout.org/img/button/twitter_follow_us.png
 [Facebook]: http://www.facebook.com/CraftFire
 [Facebook Button]: http://cdn.getspout.org/img/button/facebook_like_us.png
-[Donation]: https://www.paypal.com/cgi-bin/webscr?hosted_button_id=QNJH72R72TZ64&item_name=BabelCraft+%28from+github.com%29&cmd=_s-xclick
-[Donation Button]: http://cdn.getspout.org/img/button/donate_paypal_96x96.png
+[Donation]: https://www.paypal.com/cgi-bin/webscr?hosted_button_id=4K4LNLGDM9T6Y&page_style=BabelCraft&item_name=BabelCraft+donation+%28from+github.com%29&cmd=_s-xclick
+[Donation Button]: http://assets.craftfire.com/img/button/donate_paypal_96x96.png
