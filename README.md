@@ -1,15 +1,14 @@
-[![][Project Logo]][Website] by [![][Author Logo]][Website]
-
-BabelCraft Legacy
-=================
+[![BabelCraft Legacy][Project Logo]][Website] Legacy
+====================================================
 Automatic chat translation plugin and API for Bukkit-based Minecraft servers.
 
-Copyright (c) 2011-2012, CraftFire <<http://www.craftfire.com/>>
+Copyright (c) 2011-2012, CraftFire <<http://www.craftfire.com/>>  
+[![][Author Logo]][Website]
 
 Who is CraftFire?
 -----------------
 CraftFire is the team behind the AuthAPI, AuthDB, BabelCraft, CraftCommons, and TextWrap projects.  
-[![Wulfspider](https://secure.gravatar.com/avatar/6f2a0dcb60cd1ebee57875f9326bc98c?d=mm&r=pg&s=48)](http://forums.spout.org/members/wulfspider/) [![Contex](https://secure.gravatar.com/avatar/166ba849fcd905c8842cb062b879bc09?d=mm&r=pg&s=48)](forums.spout.org/members/contex/) 
+[![Wulfspider](https://secure.gravatar.com/avatar/6f2a0dcb60cd1ebee57875f9326bc98c?d=mm&r=pg&s=48)](http://forums.spout.org/members/wulfspider/) [![Contex](https://secure.gravatar.com/avatar/ab34f58825a956a975f1a3dcdf97a173?d=mm&r=pg&s=48)](http://forums.spout.org/members/contex/) 
 
 Visit our [website][Website] or get support on our [forum thread][Forums].  
 Track and submit issues and bugs on our [issue tracker][Issues].
@@ -46,7 +45,7 @@ Coding and Pull Request Conventions
 
 **Please follow the above conventions if you want your pull request(s) accepted.**
 
-[Project Logo]: http://cdn.craftfire.com/img/logo/babelcraft_564x93.png
+[Project Logo]: http://cdn.craftfire.com/img/logo/babelcraft_230x38.png
 [Author Logo]: http://cdn.craftfire.com/img/logo/craftfire_150x38.png
 [License]: http://www.gnu.org/licenses/lgpl.html
 [Website]: http://www.craftfire.com
