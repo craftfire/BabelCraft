@@ -1,32 +1,31 @@
-name: BabelCraft
-version: 1.1.0.${build.number}
+name: BabelCraft Legacy
+version: ${releaseVersion}.${buildNumber}
 description: Automatic chat translation plugin and API for CraftBukkit.
 authors: [CraftFire, Contex, Wulfspider]
 website: http://www.craftfire.com
 
 main: com.craftfire.babelcraft.BabelCraft
 database: true
-#softdepend: [Spout]
 
 commands:
-  lang:
-    description: Set your language by name or code or display a list.
-    usage: /<command> <language> or <languagecode> or <pagenumber>
-  lang search:
-    description: Search for a language name or code.
-    usage: /<command> search <string>
+    lang:
+        description: Set your language by name or code or display a list.
+        usage: /<command> <language> or <languagecode> or <pagenumber>
+    lang search:
+        description: Search for a language name or code.
+        usage: /<command> search <string>
 
 #permissions:
-  #babelcraft.*:
-    #description: 
-    #children:
-      #babelcraft.user.translate: true
-      #babelcraft.admin.reload: true
-  #babelcraft.user.*:
-    #description: 
-    #children:
-      #babelcraft.user.translate: true
-  #babelcraft.admin.*:
-    #description: 
-    #children:
-      #babelcraft.admin.reload: true
+    #babelcraft.*:
+        #description: 
+        #children:
+            #babelcraft.user.translate: true
+            #babelcraft.admin.reload: true
+    #babelcraft.user.*:
+        #description: 
+        #children:
+            #babelcraft.user.translate: true
+    #babelcraft.admin.*:
+        #description: 
+        #children:
+            #babelcraft.admin.reload: true

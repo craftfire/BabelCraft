@@ -1,46 +1,47 @@
-<!--
-  Maven build file for BabelCraft
-
-  Copyright (c) 2011 CraftFire <http://www.craftfire.com>
-  BabelCraft is licensed under Creative Commons CC BY-NC-ND 3.0
--->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Project information -->
+    <name>BabelCraft Legacy</name>
     <groupId>com.craftfire</groupId>
     <artifactId>babelcraft</artifactId>
-    <version>dev-SNAPSHOT</version>
-    <name>BabelCraft</name>
+    <version>0.0.1-SNAPSHOT</version>
     <url>http://www.craftfire.com</url>
+    <inceptionYear>2011</inceptionYear>
     <description>Automatic chat translation plugin and API for Bukkit-based Minecraft servers.</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <bukkitVersion>1.2.5-R4.1-SNAPSHOT</bukkitVersion>
+        <buildNumber>0</buildNumber>
     </properties>
+
+    <!-- Organization -->
+    <organization>
+        <name>CraftFire</name>
+        <url>http://www.craftfire.com</url>
+    </organization>
 
     <!-- License -->
     <licenses>
         <license>
-            <name>Creative Commons CC BY-NC-ND 3.0</name>
-            <url>http://www.creativecommons.org/licenses/by-nc-nd/3.0/</url>
-            <comments>This license only allows others to download your works and share them with others as long as they credit you, but they can’t change them in any way or use them commercially.</comments>
+            <name>GNU Lesser General Public License Version 3</name>
+            <url>http://www.gnu.org/licenses/lgpl.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
 
     <!-- Source code -->
     <scm>
-        <developerConnection>scm:git:git@github.com:CraftFire/${project.name}.git</developerConnection>
-        <connection>scm:git:git://github.com/CraftFire/${project.name}.git</connection>
-        <url>https://github.com/CraftFire/${project.name}</url>
+        <developerConnection>scm:git:git@github.com:CraftFire/BabelCraft-Legacy.git</developerConnection>
+        <connection>scm:git:git://github.com/CraftFire/BabelCraft-Legacy.git</connection>
+        <url>https://github.com/CraftFire/BabelCraft-Legacy</url>
     </scm>
 
     <!-- Continuous integration -->
     <ciManagement>
         <system>jenkins</system>
-        <url>http://ci.craftfire.com</url>
+        <url>http://build.craftfire.com/job/Babelcraft%20Legacy</url>
     </ciManagement>
 
     <!-- Repository locations -->
@@ -49,93 +50,46 @@
             <id>craftfire-repo</id>
             <url>http://repo.craftfire.com</url>
         </repository>
-        <repository>
-            <id>spout-repo</id>
-            <url>http://repo.getspout.org</url>
-        </repository>
-        <repository>
-            <id>craftfire-dbrepo</id>
-            <url>http://db.craftfire.com/repo</url>
-        </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>craftfire-repo</id>
+            <url>http://repo.craftfire.com</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <!-- Dependencies -->
     <dependencies>
-        <!-- Required component -->
-        <!-- <dependency>
-            <groupId>com.craftfire</groupId>
-            <artifactId>craftfirelib</artifactId>
-            <version>1.0.0</version>
-        </dependency> -->
-        <!-- Third-party -->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <type>jar</type>
+            <version>${bukkitVersion}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.getspout</groupId>
-            <artifactId>spoutapi</artifactId>
-            <version>dev-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.lennardf1989</groupId>
-            <artifactId>bukkitex</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <!-- <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>org.json</artifactId>
-            <version>2.0</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency> -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20090211</version>
-            <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.maxmind</groupId>
             <artifactId>geoip</artifactId>
             <version>dev-SNAPSHOT</version>
-            <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.google.api</groupId>
             <artifactId>google-api-translate-java</artifactId>
             <version>0.95-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.memetix</groupId>
-            <artifactId>microsoft-translator-java-api</artifactId>
-            <version>0.4-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com</groupId>
-            <artifactId>mygengo</artifactId>
-            <version>dev-SNAPSHOT</version>
-            <type>jar</type>
             <scope>compile</scope>
         </dependency>
     </dependencies>
 
+    <!-- Build settings -->
     <build>
-        <defaultGoal>clean package</defaultGoal>
-        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+        <defaultGoal>clean install</defaultGoal>
+
         <!-- Resources -->
         <resources>
             <resource>
@@ -159,7 +113,7 @@
                 <filtering>true</filtering>
                 <directory>${basedir}/src/main/resources/config</directory>
                 <includes>
-                    <include>*</include>
+                    <include>**/*</include>
                 </includes>
             </resource>
             <resource>
@@ -167,7 +121,7 @@
                 <filtering>false</filtering>
                 <directory>${basedir}/src/main/resources/data</directory>
                 <includes>
-                    <include>*</include>
+                    <include>**/*</include>
                 </includes>
             </resource>
             <resource>
@@ -175,30 +129,84 @@
                 <filtering>false</filtering>
                 <directory>${basedir}/src/main/resources/translations</directory>
                 <includes>
-                    <include>*</include>
                     <include>**/*</include>
                 </includes>
             </resource>
         </resources>
+
         <!-- Plugins -->
         <plugins>
+            <!-- License header formatting plugin -->
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.10.b1</version>
+                <executions>
+                    <execution>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <quiet>true</quiet>
+                    <encoding>UTF-8</encoding>
+                    <strictCheck>true</strictCheck>
+                    <header>${basedir}/HEADER.txt</header>
+                    <keywords>
+                        <keyword>${project.name}</keyword>
+                        <keyword>license</keyword>
+                    </keywords>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
+                    <properties>
+                        <name>${project.name}</name>
+                        <url>${project.organization.url}</url>
+                        <license>GNU Lesser General Public License</license>
+                        <licenseUrl>http://www.gnu.org/licenses/lgpl.html</licenseUrl>
+                        <copyright>Copyright (c) ${project.inceptionYear}-2012, ${project.organization.name}</copyright>
+                    </properties>
+                    <includes>
+                        <include>src/main/java/**</include>
+                        <include>src/test/java/**</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <!-- Version strip plugin -->
+            <plugin>
+                <groupId>com.sourcesense.maven</groupId>
+                <artifactId>maven-nosnapshot-plugin</artifactId>
+                <version>0.0.7-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>strip</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <version>${project.version}</version>
+                    <propertyName>releaseVersion</propertyName>
+                </configuration>
+            </plugin>
             <!-- Compile plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-            </plugin>
-            <!-- JAR creation plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>2.4</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
             </plugin>
             <!-- JAR dependency addition plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>1.4</version>
+                <version>1.6</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -206,14 +214,11 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <minimizeJar>true</minimizeJar>
                             <artifactSet>
                                 <includes>
-                                    <!-- <include>com.craftfire:craftfirelib</include> -->
-                                    <include>com.lennardf1989:bukkitex</include>
                                     <include>org.json:json</include>
                                     <include>com.google.api:google-api-translate-java</include>
-                                    <include>com.memetix:microsoft-translator-java-api</include>
-                                    <include>com:mygengo</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -221,6 +226,37 @@
                 </executions>
             </plugin>
         </plugins>
+
+        <!-- Plugin management -->
+        <pluginManagement>
+            <plugins>
+                <!-- Eclipse exclusions -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>com.sourcesense.maven</groupId>
+                                        <artifactId>maven-nosnapshot-plugin</artifactId>
+                                        <versionRange>[0.0.7-SNAPSHOT,)</versionRange>
+                                        <goals>
+                                            <goal>strip</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>
